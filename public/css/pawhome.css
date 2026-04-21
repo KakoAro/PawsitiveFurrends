@@ -1,0 +1,399 @@
+/* ================================================================
+   PawHome — Custom Stylesheet  (layered on top of Bootstrap 5)
+   ================================================================ */
+
+/* Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap');
+
+/* ---- CSS Variables ---- */
+:root {
+  --cream:        #fdf6ed;
+  --warm-white:   #fff9f3;
+  --tan:          #e8d5b7;
+  --terra:        #c4714a;
+  --terra-light:  #f0c9b0;
+  --terra-dark:   #9a4f2f;
+  --sage:         #7a9e7e;
+  --sage-light:   #c8ddc9;
+  --cocoa:        #4a3728;
+  --cocoa-mid:    #7a5c47;
+  --cocoa-light:  #b89880;
+  --muted:        #7a6055;
+  --card-bg:      #fffbf6;
+
+  --bs-primary:   #c4714a;
+  --bs-body-bg:   #fdf6ed;
+  --bs-body-color:#2e1f13;
+  --bs-border-radius: 0.75rem;
+  --bs-border-radius-lg: 1.25rem;
+}
+
+/* ---- Base ---- */
+body {
+  font-family: 'DM Sans', sans-serif;
+  background-color: var(--cream);
+  color: var(--cocoa);
+}
+
+h1, h2, h3, h4 {
+  font-family: 'Playfair Display', serif;
+}
+
+.font-display { font-family: 'Playfair Display', serif; }
+.text-terra    { color: var(--terra) !important; }
+.text-muted    { color: var(--muted) !important; }
+.bg-cream      { background-color: var(--cream); }
+.bg-warm-white { background-color: var(--warm-white); }
+
+/* ---- Navbar ---- */
+.navbar-pawhome {
+  background: rgba(253, 246, 237, 0.95) !important;
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(196,113,74,0.12);
+}
+
+.navbar-brand {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.5rem;
+  color: var(--terra) !important;
+}
+
+.navbar-nav .nav-link {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--cocoa-mid) !important;
+  transition: color 0.2s;
+}
+
+.navbar-nav .nav-link:hover,
+.navbar-nav .nav-link.active {
+  color: var(--terra) !important;
+}
+
+/* ---- Buttons ---- */
+.btn-terra {
+  background-color: var(--terra);
+  color: #fff;
+  border: none;
+  border-radius: 50px;
+  font-weight: 500;
+  transition: background 0.2s, transform 0.15s;
+}
+.btn-terra:hover {
+  background-color: var(--terra-dark);
+  color: #fff;
+  transform: translateY(-1px);
+}
+
+.btn-outline-terra {
+  color: var(--terra);
+  border: 1.5px solid var(--terra);
+  border-radius: 50px;
+  font-weight: 500;
+  background: transparent;
+  transition: all 0.2s;
+}
+.btn-outline-terra:hover {
+  background: var(--terra);
+  color: #fff;
+}
+
+.btn-outline-cocoa {
+  color: var(--cocoa);
+  border: 1.5px solid var(--tan);
+  border-radius: 50px;
+  font-weight: 500;
+  background: transparent;
+  transition: all 0.2s;
+}
+.btn-outline-cocoa:hover {
+  border-color: var(--terra);
+  background: rgba(196,113,74,0.06);
+}
+
+/* ---- Hero ---- */
+.hero-section {
+  min-height: 90vh;
+  display: flex;
+  align-items: center;
+  padding-top: 80px;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-section::before {
+  content: '';
+  position: absolute; top: -80px; right: -80px;
+  width: 450px; height: 450px;
+  background: radial-gradient(circle, var(--terra-light), transparent 70%);
+  border-radius: 50%; opacity: 0.4; pointer-events: none;
+}
+
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: var(--terra-light); color: var(--terra-dark);
+  font-size: 0.8rem; font-weight: 500; padding: 0.4rem 1rem;
+  border-radius: 50px; margin-bottom: 1.2rem;
+}
+
+/* ---- Search Bar ---- */
+.search-card {
+  background: var(--card-bg);
+  border-radius: 1rem;
+  padding: 1.5rem;
+  box-shadow: 0 8px 40px rgba(74,55,40,0.10);
+}
+
+.search-divider {
+  width: 1px; background: var(--tan); align-self: stretch;
+}
+
+.search-label {
+  font-size: 0.7rem; font-weight: 500;
+  text-transform: uppercase; letter-spacing: 0.6px;
+  color: var(--muted); margin-bottom: 3px;
+}
+
+.search-input {
+  border: none; background: transparent;
+  font-family: 'DM Sans', sans-serif; font-size: 0.95rem;
+  color: var(--cocoa); padding: 0; outline: none;
+  -webkit-appearance: none; appearance: none; width: 100%;
+}
+
+.search-input:focus { box-shadow: none; border: none; }
+
+/* ---- Pet Card ---- */
+.pet-card {
+  background: var(--card-bg);
+  border: 1px solid rgba(74,55,40,0.07);
+  border-radius: 1.2rem;
+  overflow: hidden;
+  transition: transform 0.25s, box-shadow 0.25s;
+  cursor: pointer;
+}
+
+.pet-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 16px 40px rgba(74,55,40,0.13) !important;
+}
+
+.pet-card .pet-img-wrap {
+  position: relative; overflow: hidden;
+  aspect-ratio: 1;
+}
+
+.pet-card .pet-img-wrap img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s;
+}
+
+.pet-card:hover .pet-img-wrap img {
+  transform: scale(1.06);
+}
+
+.pet-badge-species {
+  position: absolute; top: 12px; left: 12px;
+  background: rgba(253,246,237,0.92);
+  backdrop-filter: blur(6px);
+  color: var(--terra-dark);
+  font-size: 0.72rem; font-weight: 500;
+  padding: 4px 10px; border-radius: 50px;
+}
+
+.btn-fav {
+  position: absolute; top: 12px; right: 12px;
+  background: rgba(253,246,237,0.92);
+  backdrop-filter: blur(6px);
+  width: 34px; height: 34px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1rem; cursor: pointer;
+  border: none; transition: transform 0.2s;
+  color: var(--terra);
+}
+.btn-fav:hover { transform: scale(1.15); background: var(--terra-light); }
+.btn-fav.active { background: var(--terra); color: #fff; }
+
+.pet-name {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.15rem; color: var(--cocoa); font-weight: 700;
+}
+
+.pet-tag {
+  font-size: 0.72rem; background: var(--cream);
+  color: var(--cocoa-mid); padding: 3px 9px;
+  border-radius: 50px; border: 1px solid var(--tan);
+}
+
+/* ---- Section Tags ---- */
+.section-tag {
+  display: inline-block;
+  font-size: 0.78rem; font-weight: 500; letter-spacing: 1px;
+  text-transform: uppercase; color: var(--terra);
+  margin-bottom: 0.6rem;
+}
+
+/* ---- Filter Tabs ---- */
+.filter-tab {
+  border: 1.5px solid var(--tan); border-radius: 50px;
+  background: transparent; color: var(--muted);
+  font-size: 0.88rem; font-weight: 500;
+  padding: 0.45rem 1.2rem;
+  cursor: pointer; transition: all 0.2s;
+}
+.filter-tab:hover,
+.filter-tab.active {
+  background: var(--terra);
+  border-color: var(--terra);
+  color: #fff;
+}
+
+/* ---- Step Cards ---- */
+.step-icon {
+  width: 72px; height: 72px; border-radius: 50%;
+  background: var(--terra-light);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.8rem; position: relative;
+}
+
+.step-num {
+  position: absolute; top: -4px; right: -4px;
+  width: 22px; height: 22px; border-radius: 50%;
+  background: var(--terra); color: #fff;
+  font-size: 0.68rem; font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+}
+
+/* ---- Category Cards ---- */
+.cat-card {
+  background: var(--card-bg);
+  border: 1.5px solid var(--tan); border-radius: 1rem;
+  padding: 1.5rem 1rem; text-align: center;
+  cursor: pointer; transition: all 0.2s;
+  text-decoration: none; color: inherit;
+  display: flex; flex-direction: column; align-items: center; gap: 8px;
+}
+.cat-card:hover, .cat-card.featured {
+  border-color: var(--terra);
+  background: rgba(196,113,74,0.05);
+  transform: translateY(-3px);
+}
+.cat-emoji { font-size: 2rem; }
+.cat-name  { font-size: 0.9rem; font-weight: 500; color: var(--cocoa); }
+.cat-count { font-size: 0.75rem; color: var(--muted); }
+
+/* ---- CTA Banner ---- */
+.cta-banner {
+  background: var(--cocoa);
+  border-radius: 1.8rem;
+  position: relative; overflow: hidden;
+}
+.cta-banner::before {
+  content: '';
+  position: absolute; top: -40px; right: -40px;
+  width: 250px; height: 250px;
+  background: radial-gradient(circle, rgba(196,113,74,0.4), transparent 70%);
+  border-radius: 50%; pointer-events: none;
+}
+
+/* ---- Forms ---- */
+.form-control, .form-select {
+  border: 1.5px solid var(--tan);
+  border-radius: 0.65rem;
+  background: var(--warm-white);
+  color: var(--cocoa);
+  font-family: 'DM Sans', sans-serif;
+  padding: 0.7rem 1rem;
+}
+.form-control:focus, .form-select:focus {
+  border-color: var(--terra);
+  box-shadow: 0 0 0 3px rgba(196,113,74,0.15);
+  background: #fff;
+}
+.form-label {
+  font-size: 0.85rem; font-weight: 500; color: var(--muted);
+}
+
+/* ---- Alerts ---- */
+.alert-terra {
+  background: var(--terra-light);
+  border: 1px solid var(--terra);
+  color: var(--terra-dark);
+  border-radius: 0.75rem;
+}
+
+/* ---- Admin Sidebar ---- */
+.admin-sidebar {
+  background: var(--cocoa);
+  min-height: 100vh;
+  width: 240px;
+  position: fixed; left: 0; top: 0;
+  padding-top: 1.5rem;
+  z-index: 1000;
+}
+.admin-sidebar .brand {
+  color: var(--terra-light);
+  font-family: 'Playfair Display', serif;
+  font-size: 1.3rem; padding: 0 1.5rem 1.5rem;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+.admin-sidebar .nav-link {
+  color: var(--cocoa-light) !important;
+  padding: 0.65rem 1.5rem; font-size: 0.88rem;
+  transition: all 0.2s;
+}
+.admin-sidebar .nav-link:hover,
+.admin-sidebar .nav-link.active {
+  background: rgba(255,255,255,0.08);
+  color: #fff !important;
+  border-left: 3px solid var(--terra);
+}
+.admin-content { margin-left: 240px; }
+
+/* ---- Status Badges ---- */
+.badge-pending   { background: #ffc107; color: #000; }
+.badge-reviewing { background: #0dcaf0; color: #000; }
+.badge-approved  { background: var(--sage); color: #fff; }
+.badge-rejected  { background: #dc3545; color: #fff; }
+.badge-completed { background: var(--cocoa-mid); color: #fff; }
+
+/* ---- Pagination ---- */
+.pagination .page-link {
+  color: var(--terra);
+  border-radius: 50px !important;
+  margin: 0 3px;
+  border: 1.5px solid var(--tan);
+}
+.pagination .page-item.active .page-link {
+  background: var(--terra); border-color: var(--terra);
+}
+
+/* ---- Footer ---- */
+footer.site-footer {
+  background: var(--cocoa);
+  color: var(--cocoa-light);
+}
+footer.site-footer a {
+  color: var(--cocoa-light); text-decoration: none; font-size: 0.88rem;
+  transition: color 0.2s;
+}
+footer.site-footer a:hover { color: var(--terra-light); }
+footer.site-footer h5 {
+  font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px;
+  color: #fff; margin-bottom: 1rem; font-weight: 500;
+}
+
+/* ---- Animations ---- */
+.fade-up {
+  opacity: 0; transform: translateY(20px);
+  transition: opacity 0.6s, transform 0.6s;
+}
+.fade-up.visible { opacity: 1; transform: none; }
+
+/* ---- Responsive ---- */
+@media (max-width: 768px) {
+  .hero-section { padding-top: 100px; }
+  .admin-sidebar { display: none; }
+  .admin-content { margin-left: 0; }
+}
