@@ -136,7 +136,7 @@
             <a href="{{ route('pets.index') }}?species=cat"             class="filter-tab {{ request('species') === 'cat'    ? 'active' : '' }}">🐱 Cats</a>
             <a href="{{ route('pets.index') }}?species=rabbit"          class="filter-tab {{ request('species') === 'rabbit' ? 'active' : '' }}">🐰 Rabbits</a>
             <a href="{{ route('pets.index') }}?species=bird"            class="filter-tab {{ request('species') === 'bird'   ? 'active' : '' }}">🐦 Birds</a>
-            <a href="{{ route('pets.index') }}?species=other"           class="filter-tab {{ request('species') === 'other'  ? 'active' : '' }}">🐾 Others</a>
+            <a href="{{ route('pets.index') }}?species=other"           class="filter-tab {{ request('species') === 'other'  ? 'active' : '' }}">👽 Others</a>
         </div>
 
         <div class="row g-4">
