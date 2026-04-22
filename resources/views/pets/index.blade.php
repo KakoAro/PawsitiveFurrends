@@ -18,7 +18,7 @@
                             {{-- Species --}}
                             <div class="mb-4">
                                 <div class="search-label mb-2">Pet Type</div>
-                                @foreach(['dog'=>'🐶 Dogs','cat'=>'🐱 Cats'] as $val => $label)
+                                @foreach(['dog'=>'🐶 Dogs','cat'=>' Cats'] as $val => $label)
                                 <div class="form-check mb-1">
                                     <input class="form-check-input" type="radio" name="species" value="{{ $val }}" id="sp_{{ $val }}" {{ request('species') === $val ? 'checked' : '' }} onchange="this.form.submit()">
                                     <label class="form-check-label" for="sp_{{ $val }}" style="font-size:0.88rem">{{ $label }}</label>
