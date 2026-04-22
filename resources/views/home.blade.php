@@ -10,7 +10,7 @@
             <div class="col-lg-6">
                 <div class="hero-badge">
                     <span style="width:6px;height:6px;background:var(--terra);border-radius:50%;display:inline-block"></span>
-                    3,200+ Happy Adoptions This Year
+                    100+ Happy Adoptions This Year
                 </div>
                 <h1 class="display-4 fw-bold mb-3" style="color:var(--cocoa);line-height:1.15">
                     Give a pet their <em class="text-terra">forever</em> home today
