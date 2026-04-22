@@ -98,14 +98,16 @@ class Pet extends Model
     }
 
     public function getCoverUrlAttribute(): string
-    {
-        return $this->cover_image
-            ? asset('storage/' . $this->cover_image)
-            : asset('images/pet-placeholder.jpg');
+{
+    if (!$this->cover_image) {
+        return 'https://images.unsplash.com/photo-1548681528-6a5c45b66063?w=400&q=80';
     }
 
-    public function getSpeciesLabelAttribute(): string
-    {
-        return ucfirst($this->species);
+    // If it's already a full URL, return it directly
+    if (str_starts_with($this->cover_image, 'http')) {
+        return $this->cover_image;
     }
+
+    return asset('storage/' . $this->cover_image);
+}
 }

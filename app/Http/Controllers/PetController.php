@@ -5,12 +5,13 @@ namespace App\Http\Controllers;
 use App\Models\Pet;
 use App\Models\Tag;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class PetController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Pet::available()->with(['tags', 'shelter']);
+        $query = Pet::available()->whereIn('species', ['dog', 'cat'])->with(['tags', 'shelter']);
 
         // Species filter
         if ($request->filled('species')) {
@@ -72,9 +73,9 @@ class PetController extends Controller
             ->where('id', '!=', $pet->id)
             ->limit(4)->get();
 
-        $isFavorited = auth()->check()
-            ? $pet->favoritedBy()->where('user_id', auth()->id())->exists()
-            : false;
+        $isFavorited = Auth::check()
+    ? $pet->favoritedBy()->where('user_id', Auth::id())->exists()
+    : false;
 
         return view('pets.show', compact('pet', 'related', 'isFavorited'));
     }

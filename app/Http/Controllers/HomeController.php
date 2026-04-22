@@ -9,7 +9,12 @@ class HomeController extends Controller
 {
     public function index()
     {
-        $featuredPets = Pet::available()->featured()->with(['tags', 'shelter'])->limit(6)->get();
+        $featuredPets = Pet::available()
+            ->whereIn('species', ['dog', 'cat'])
+            ->with(['tags', 'shelter'])
+            ->limit(6)
+            ->get();
+
         $totalPets     = Pet::available()->count();
         $totalShelters = Shelter::where('is_active', true)->count();
         $speciesCounts = Pet::available()

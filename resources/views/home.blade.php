@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', 'PawHome')
+@section('title', 'Pawsitive Furrends')
 
 @section('content')
 
@@ -75,7 +75,7 @@
 
 {{-- ===== SEARCH BAR ===== --}}
 <section class="py-3">
-    <div class="container">
+     <div class="container">
         <div class="search-card">
             <form action="{{ route('pets.index') }}" method="GET" class="d-flex align-items-center gap-3 flex-wrap">
                 <div class="flex-fill" style="min-width:140px">
@@ -84,9 +84,7 @@
                         <option value="">All Animals</option>
                         <option value="dog">Dogs</option>
                         <option value="cat">Cats</option>
-                        <option value="rabbit">Rabbits</option>
-                        <option value="bird">Birds</option>
-                        <option value="other">Others</option>
+                        
                     </select>
                 </div>
                 <div class="search-divider d-none d-md-block"></div>
@@ -134,9 +132,7 @@
             <a href="{{ route('pets.index') }}"                         class="filter-tab {{ !request('species') ? 'active' : '' }}">All</a>
             <a href="{{ route('pets.index') }}?species=dog"             class="filter-tab {{ request('species') === 'dog'    ? 'active' : '' }}">🐶 Dogs</a>
             <a href="{{ route('pets.index') }}?species=cat"             class="filter-tab {{ request('species') === 'cat'    ? 'active' : '' }}">🐱 Cats</a>
-            <a href="{{ route('pets.index') }}?species=rabbit"          class="filter-tab {{ request('species') === 'rabbit' ? 'active' : '' }}">🐰 Rabbits</a>
-            <a href="{{ route('pets.index') }}?species=bird"            class="filter-tab {{ request('species') === 'bird'   ? 'active' : '' }}">🐦 Birds</a>
-            <a href="{{ route('pets.index') }}?species=other"           class="filter-tab {{ request('species') === 'other'  ? 'active' : '' }}">👽 Others</a>
+            
         </div>
 
         <div class="row g-4">
@@ -227,9 +223,7 @@
             @foreach([
                 ['emoji'=>'🐶','name'=>'Dogs',    'species'=>'dog'],
                 ['emoji'=>'🐱','name'=>'Cats',    'species'=>'cat'],
-                ['emoji'=>'🐰','name'=>'Rabbits', 'species'=>'rabbit'],
-                ['emoji'=>'🐦','name'=>'Birds',   'species'=>'bird'],
-                ['emoji'=>'🐾','name'=>'Others',  'species'=>'other'],
+               
             ] as $cat)
             <div class="col-6 col-sm-4 col-lg">
                 <a href="{{ route('pets.index') }}?species={{ $cat['species'] }}" class="cat-card {{ $cat['species'] === 'dog' ? 'featured' : '' }}">

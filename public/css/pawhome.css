@@ -119,6 +119,7 @@ h1, h2, h3, h4 {
   padding-top: 80px;
   position: relative;
   overflow: hidden;
+  background: url('https://images.unsplash.com/photo-1450778869180-41d0601e046e?w=1600&q=80') center/cover no-repeat;
 }
 
 .hero-section::before {
@@ -129,11 +130,41 @@ h1, h2, h3, h4 {
   border-radius: 50%; opacity: 0.4; pointer-events: none;
 }
 
+.hero-section::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(253, 246, 237, 0.82);
+  z-index: 0;
+}
+
+.hero-section .container {
+  position: relative;
+  z-index: 1;
+}
+
 .hero-badge {
   display: inline-flex; align-items: center; gap: 8px;
   background: var(--terra-light); color: var(--terra-dark);
   font-size: 0.8rem; font-weight: 500; padding: 0.4rem 1rem;
   border-radius: 50px; margin-bottom: 1.2rem;
+}
+
+/* Hero text readability over background image */
+.hero-section h1 {
+  text-shadow: 0 2px 12px rgba(253,246,237,0.9), 0 1px 4px rgba(253,246,237,1);
+}
+
+.hero-section p {
+  text-shadow: 0 1px 6px rgba(253,246,237,0.95);
+}
+
+.hero-section .hero-badge {
+  box-shadow: 0 2px 12px rgba(253,246,237,0.8);
+}
+
+.hero-section .d-flex .font-display {
+  text-shadow: 0 1px 6px rgba(253,246,237,0.9);
 }
 
 /* ---- Search Bar ---- */
