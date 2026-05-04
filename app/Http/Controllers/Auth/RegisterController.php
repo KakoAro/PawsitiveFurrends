@@ -34,6 +34,6 @@ class RegisterController extends Controller
 
         Auth::login($user);
 
-        return redirect()->route('home')->with('success', "Welcome to PawHome, {$user->name}! Start browsing pets.");
+        return redirect()->route('home')->with('success', "Welcome to Pawsitive Furrends!, {$user->name}! Start browsing pets.");
     }
 }
