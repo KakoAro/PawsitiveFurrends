@@ -4,130 +4,235 @@
 @section('content')
 <div style="padding-top:76px"></div>
 
-<section class="py-5">
-    <div class="container">
-        <nav aria-label="breadcrumb" class="mb-4">
-            <ol class="breadcrumb" style="font-size:0.85rem">
-                <li class="breadcrumb-item"><a href="{{ route('home') }}" style="color:var(--terra)">Home</a></li>
-                <li class="breadcrumb-item"><a href="{{ route('pets.index') }}" style="color:var(--terra)">Pets</a></li>
-                <li class="breadcrumb-item active" style="color:var(--muted)">{{ $pet->name }}</li>
-            </ol>
-        </nav>
-
-        <div class="row g-5">
-            {{-- ---- LEFT: Images ---- --}}
-            <div class="col-lg-6">
-                <div style="border-radius:1.5rem;overflow:hidden;aspect-ratio:1;background:var(--terra-light)">
-                    <img src="{{ $pet->cover_url }}" alt="{{ $pet->name }}" style="width:100%;height:100%;object-fit:cover" id="mainImage">
-                </div>
-                @if($pet->images->count())
-                <div class="d-flex gap-2 mt-3 flex-wrap">
-                    @foreach($pet->images as $img)
-                    <div style="width:70px;height:70px;border-radius:0.6rem;overflow:hidden;cursor:pointer;border:2px solid transparent"
-                         onclick="document.getElementById('mainImage').src='{{ asset('storage/'.$img->image_path) }}'">
-                        <img src="{{ asset('storage/'.$img->image_path) }}" style="width:100%;height:100%;object-fit:cover" alt="{{ $img->caption }}">
-                    </div>
-                    @endforeach
-                </div>
+{{-- Hero Banner --}}
+<div style="width:100%;height:380px;overflow:hidden;position:relative">
+    <img src="{{ $pet->cover_url }}" alt="{{ $pet->name }}"
+         style="width:100%;height:100%;object-fit:cover;filter:brightness(0.75)">
+    <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(46,31,19,0.85) 0%,transparent 60%)"></div>
+    <div class="container h-100 d-flex align-items-end pb-4" style="position:relative">
+        <div>
+            <nav aria-label="breadcrumb" class="mb-2">
+                <ol class="breadcrumb mb-0" style="font-size:0.82rem">
+                    <li class="breadcrumb-item"><a href="{{ route('home') }}" style="color:rgba(255,255,255,0.7)">Home</a></li>
+                    <li class="breadcrumb-item"><a href="{{ route('pets.index') }}" style="color:rgba(255,255,255,0.7)">Pets</a></li>
+                    <li class="breadcrumb-item active" style="color:#fff">{{ $pet->name }}</li>
+                </ol>
+            </nav>
+            <div class="d-flex align-items-center gap-3 flex-wrap">
+                <h1 class="font-display mb-0" style="color:#fff;font-size:clamp(2rem,4vw,3rem)">{{ $pet->name }}</h1>
+                <span style="background:var(--terra);color:#fff;font-size:0.8rem;font-weight:600;padding:5px 14px;border-radius:50px">{{ $pet->species_label }}</span>
+                @if($pet->featured)
+                <span style="background:rgba(255,255,255,0.2);color:#fff;font-size:0.8rem;padding:5px 14px;border-radius:50px;backdrop-filter:blur(6px)">⭐ Featured</span>
                 @endif
             </div>
+            <div style="color:rgba(255,255,255,0.8);font-size:0.9rem;margin-top:6px">
+                {{ $pet->breed ?? 'Mixed Breed' }} &nbsp;·&nbsp; {{ $pet->age_string }} &nbsp;·&nbsp; {{ ucfirst($pet->size) }} &nbsp;·&nbsp; {{ ucfirst($pet->gender) }}
+            </div>
+        </div>
+    </div>
+</div>
 
-            {{-- ---- RIGHT: Info ---- --}}
-            <div class="col-lg-6">
-                <div class="d-flex align-items-start justify-content-between flex-wrap gap-2 mb-2">
-                    <span style="background:var(--terra-light);color:var(--terra-dark);font-size:0.78rem;font-weight:500;padding:4px 12px;border-radius:50px">
-                        {{ $pet->species_label }}
-                    </span>
-                    <div class="d-flex gap-2">
-                        @if($pet->featured)
-                        <span class="badge" style="background:var(--sage-light);color:var(--sage)">⭐ Featured</span>
+<section class="py-5">
+    <div class="container">
+        <div class="row g-5">
+
+            {{-- LEFT COLUMN --}}
+            <div class="col-lg-8">
+
+                {{-- Story Section --}}
+                <div class="card border-0 shadow-sm mb-4" style="border-radius:1.5rem;background:var(--card-bg)">
+                    <div class="card-body p-5">
+                        <div class="d-flex align-items-center gap-3 mb-4">
+                            <div style="width:48px;height:48px;border-radius:50%;background:var(--terra-light);display:flex;align-items:center;justify-content:center;font-size:1.4rem;flex-shrink:0">🐾</div>
+                            <div>
+                                <h4 class="font-display mb-0">{{ $pet->name }}'s Story</h4>
+                                <div style="font-size:0.82rem;color:var(--muted)">Get to know me better</div>
+                            </div>
+                        </div>
+                        <p style="color:var(--muted);line-height:1.9;font-size:0.97rem">{{ $pet->description ?? 'This pet is waiting for someone to write their story. Be the first to give them a forever home!' }}</p>
+
+                        {{-- Tags --}}
+                        @if($pet->tags->count())
+                        <div class="d-flex flex-wrap gap-2 mt-4">
+                            @foreach($pet->tags as $tag)
+                            <span class="pet-tag" style="font-size:0.82rem;padding:5px 12px">{{ $tag->name }}</span>
+                            @endforeach
+                        </div>
                         @endif
                     </div>
                 </div>
 
-                <h1 class="font-display mb-1" style="font-size:2.5rem;color:var(--cocoa)">{{ $pet->name }}</h1>
-                <p style="color:var(--muted);font-size:1rem">{{ $pet->breed ?? 'Mixed Breed' }} · {{ $pet->age_string }} · {{ ucfirst($pet->size) }} · {{ ucfirst($pet->gender) }}</p>
+                {{-- Health & Details --}}
+                <div class="card border-0 shadow-sm mb-4" style="border-radius:1.5rem;background:var(--card-bg)">
+                    <div class="card-body p-5">
+                        <h4 class="font-display mb-4">Health & Details</h4>
+                        <div class="row g-3">
+                            @foreach([
+                                ['label'=>'Vaccinated',   'val'=>$pet->is_vaccinated,   'icon'=>'bi-shield-check', 'desc'=>'Up to date on vaccines'],
+                                ['label'=>'Neutered',     'val'=>$pet->is_neutered,     'icon'=>'bi-scissors',     'desc'=>'Spayed / Neutered'],
+                                ['label'=>'Microchipped', 'val'=>$pet->is_microchipped, 'icon'=>'bi-cpu',          'desc'=>'Has microchip ID'],
+                                ['label'=>'Good w/ Kids', 'val'=>$pet->good_with_kids,  'icon'=>'bi-person-hearts','desc'=>'Kid-friendly'],
+                                ['label'=>'Good w/ Dogs', 'val'=>$pet->good_with_dogs,  'icon'=>'bi-emoji-smile',  'desc'=>'Dog-friendly'],
+                                ['label'=>'Good w/ Cats', 'val'=>$pet->good_with_cats,  'icon'=>'bi-emoji-smile',  'desc'=>'Cat-friendly'],
+                            ] as $detail)
+                            <div class="col-6 col-md-4">
+                                <div class="d-flex align-items-center gap-3 p-3 h-100" style="background:var(--{{ $detail['val'] ? 'sage' : 'cream' }}-light{{ $detail['val'] ? '' : '' }});background:{{ $detail['val'] ? 'var(--sage-light)' : 'var(--cream)' }};border-radius:0.9rem;border:1px solid {{ $detail['val'] ? 'var(--sage-light)' : 'var(--tan)' }}">
+                                    <div style="width:38px;height:38px;border-radius:50%;background:{{ $detail['val'] ? 'var(--sage)' : 'var(--tan)' }};display:flex;align-items:center;justify-content:center;flex-shrink:0">
+                                        <i class="bi {{ $detail['icon'] }}" style="color:{{ $detail['val'] ? '#fff' : 'var(--muted)' }};font-size:1rem"></i>
+                                    </div>
+                                    <div>
+                                        <div style="font-weight:600;font-size:0.85rem;color:{{ $detail['val'] ? 'var(--sage)' : 'var(--muted)' }}">{{ $detail['val'] ? '✓' : '✗' }} {{ $detail['label'] }}</div>
+                                        <div style="font-size:0.75rem;color:var(--muted)">{{ $detail['desc'] }}</div>
+                                    </div>
+                                </div>
+                            </div>
+                            @endforeach
+                        </div>
 
-                <div class="d-flex flex-wrap gap-2 my-3">
-                    @foreach($pet->tags as $tag)
-                        <span class="pet-tag">{{ $tag->name }}</span>
-                    @endforeach
+                        @if($pet->health_notes)
+                        <div class="mt-4 p-3" style="background:var(--cream);border-radius:0.9rem;border-left:3px solid var(--terra)">
+                            <div style="font-size:0.78rem;font-weight:600;color:var(--terra);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px">Health Notes</div>
+                            <p style="font-size:0.88rem;color:var(--muted);margin:0;line-height:1.7">{{ $pet->health_notes }}</p>
+                        </div>
+                        @endif
+                    </div>
                 </div>
 
-                <p style="color:var(--muted);font-weight:300;line-height:1.8;font-size:0.95rem">{{ $pet->description }}</p>
-
-                {{-- Health Details --}}
-                <div class="row g-3 my-4">
-                    @foreach([
-                        ['label'=>'Vaccinated',   'val'=>$pet->is_vaccinated,   'icon'=>'bi-shield-check'],
-                        ['label'=>'Neutered',     'val'=>$pet->is_neutered,     'icon'=>'bi-scissors'],
-                        ['label'=>'Microchipped', 'val'=>$pet->is_microchipped, 'icon'=>'bi-cpu'],
-                        ['label'=>'Good w/ Kids', 'val'=>$pet->good_with_kids,  'icon'=>'bi-person-hearts'],
-                        ['label'=>'Good w/ Dogs', 'val'=>$pet->good_with_dogs,  'icon'=>'bi-emoji-smile'],
-                        ['label'=>'Good w/ Cats', 'val'=>$pet->good_with_cats,  'icon'=>'bi-emoji-smile'],
-                    ] as $detail)
-                    <div class="col-6 col-sm-4">
-                        <div class="d-flex align-items-center gap-2 p-2" style="background:var(--card-bg);border-radius:0.7rem;border:1px solid var(--tan)">
-                            <i class="bi {{ $detail['icon'] }}" style="color:{{ $detail['val'] ? 'var(--sage)' : 'var(--muted)' }};font-size:1.1rem"></i>
-                            <div>
-                                <div style="font-size:0.72rem;color:var(--muted)">{{ $detail['label'] }}</div>
-                                <div style="font-size:0.82rem;font-weight:500;color:{{ $detail['val'] ? 'var(--sage)' : 'var(--muted)' }}">
-                                    {{ $detail['val'] ? 'Yes' : 'No' }}
+                {{-- Quick Info Cards --}}
+                <div class="card border-0 shadow-sm mb-4" style="border-radius:1.5rem;background:var(--card-bg)">
+                    <div class="card-body p-5">
+                        <h4 class="font-display mb-4">Quick Info</h4>
+                        <div class="row g-3">
+                            @foreach([
+                                ['label'=>'Species',  'value'=> $pet->species_label,      'icon'=>'🐾'],
+                                ['label'=>'Breed',    'value'=> $pet->breed ?? 'Mixed',    'icon'=>'🧬'],
+                                ['label'=>'Age',      'value'=> $pet->age_string . ' (' . $pet->age_group . ')', 'icon'=>'🎂'],
+                                ['label'=>'Size',     'value'=> ucfirst($pet->size),       'icon'=>'📏'],
+                                ['label'=>'Gender',   'value'=> ucfirst($pet->gender),     'icon'=>'⚥'],
+                                ['label'=>'Color',    'value'=> $pet->color ?? 'N/A',      'icon'=>'🎨'],
+                                @if($pet->weight_kg)
+                                ['label'=>'Weight',   'value'=> $pet->weight_kg . ' kg',  'icon'=>'⚖️'],
+                                @endif
+                                ['label'=>'Status',   'value'=> ucfirst($pet->status),     'icon'=>'📌'],
+                            ] as $info)
+                            <div class="col-6 col-md-3">
+                                <div class="text-center p-3" style="background:var(--cream);border-radius:0.9rem">
+                                    <div style="font-size:1.5rem;margin-bottom:4px">{{ $info['icon'] }}</div>
+                                    <div style="font-size:0.7rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px">{{ $info['label'] }}</div>
+                                    <div style="font-weight:600;font-size:0.88rem;color:var(--cocoa);margin-top:2px">{{ $info['value'] }}</div>
                                 </div>
+                            </div>
+                            @endforeach
+                        </div>
+                    </div>
+                </div>
+
+                {{-- Photo Gallery --}}
+                @if($pet->images->count())
+                <div class="card border-0 shadow-sm mb-4" style="border-radius:1.5rem;background:var(--card-bg)">
+                    <div class="card-body p-5">
+                        <h4 class="font-display mb-4">More Photos</h4>
+                        <div class="row g-3">
+                            @foreach($pet->images as $img)
+                            <div class="col-6 col-md-4">
+                                <div style="border-radius:0.9rem;overflow:hidden;aspect-ratio:1;cursor:pointer" onclick="document.getElementById('mainHero').src='{{ asset('storage/'.$img->image_path) }}'">
+                                    <img src="{{ asset('storage/'.$img->image_path) }}" alt="{{ $img->caption }}"
+                                         style="width:100%;height:100%;object-fit:cover;transition:transform 0.3s"
+                                         onmouseover="this.style.transform='scale(1.05)'"
+                                         onmouseout="this.style.transform='scale(1)'">
+                                </div>
+                            </div>
+                            @endforeach
+                        </div>
+                    </div>
+                </div>
+                @endif
+
+            </div>
+
+            {{-- RIGHT COLUMN --}}
+            <div class="col-lg-4">
+
+                {{-- Adopt CTA Card --}}
+                <div class="card border-0 shadow-sm mb-4" style="border-radius:1.5rem;background:var(--card-bg);position:sticky;top:90px">
+                    <div class="card-body p-4">
+
+                        {{-- Mini photo --}}
+                        <div style="border-radius:1rem;overflow:hidden;aspect-ratio:4/3;margin-bottom:1.2rem">
+                            <img src="{{ $pet->cover_url }}" alt="{{ $pet->name }}" id="mainHero"
+                                 style="width:100%;height:100%;object-fit:cover">
+                        </div>
+
+                        <h4 class="font-display mb-1">Adopt {{ $pet->name }}</h4>
+                        <p style="font-size:0.85rem;color:var(--muted);margin-bottom:1.2rem">
+                            Give {{ $pet->name }} the forever home they deserve. The adoption process is simple and free!
+                        </p>
+
+                        @auth
+                            <a href="{{ route('adoptions.create', $pet) }}" class="btn btn-terra w-100 py-3 mb-2" style="border-radius:50px;font-weight:600">
+                                🐾 Apply to Adopt {{ $pet->name }}
+                            </a>
+                            <form action="{{ route('favorites.toggle', $pet) }}" method="POST">
+                                @csrf
+                                <button type="submit" class="btn btn-outline-cocoa w-100 py-2" style="border-radius:50px">
+                                    <i class="bi bi-heart{{ $isFavorited ? '-fill text-terra' : '' }} me-2"></i>
+                                    {{ $isFavorited ? 'Saved to Favorites' : 'Save to Favorites' }}
+                                </button>
+                            </form>
+                        @else
+                            <div class="p-3 mb-3 text-center" style="background:var(--cream);border-radius:0.9rem;font-size:0.88rem;color:var(--muted)">
+                                <i class="bi bi-lock me-1"></i>
+                                <a href="{{ route('login') }}" style="color:var(--terra);font-weight:600">Log in</a> or
+                                <a href="{{ route('register') }}" style="color:var(--terra);font-weight:600">sign up</a>
+                                to adopt {{ $pet->name }}
+                            </div>
+                            <a href="{{ route('register') }}" class="btn btn-terra w-100 py-3" style="border-radius:50px;font-weight:600">
+                                Create Free Account 🐾
+                            </a>
+                        @endauth
+
+                        <hr style="border-color:var(--tan);margin:1.2rem 0">
+
+                        {{-- Shelter Info --}}
+                        <div class="d-flex align-items-center gap-3">
+                            <div style="width:46px;height:46px;border-radius:50%;background:var(--terra-light);display:flex;align-items:center;justify-content:center;font-size:1.3rem;flex-shrink:0">🏠</div>
+                            <div>
+                                <div style="font-weight:600;font-size:0.88rem;color:var(--cocoa)">{{ $pet->shelter->name }}</div>
+                                <div style="font-size:0.78rem;color:var(--muted)">📍 {{ $pet->shelter->city }}</div>
+                                @if($pet->shelter->phone)
+                                <div style="font-size:0.78rem;color:var(--muted)">📞 {{ $pet->shelter->phone }}</div>
+                                @endif
                             </div>
                         </div>
                     </div>
-                    @endforeach
                 </div>
 
-                {{-- Shelter Info --}}
-                <div class="d-flex align-items-center gap-3 p-3 mb-4" style="background:var(--warm-white);border-radius:0.9rem;border:1px solid var(--tan)">
-                    <div style="width:44px;height:44px;border-radius:50%;background:var(--terra-light);display:flex;align-items:center;justify-content:center;font-size:1.3rem">🏠</div>
-                    <div>
-                        <div style="font-weight:500;font-size:0.9rem;color:var(--cocoa)">{{ $pet->shelter->name }}</div>
-                        <div style="font-size:0.8rem;color:var(--muted)">📍 {{ $pet->shelter->city }}  @if($pet->shelter->phone) · 📞 {{ $pet->shelter->phone }} @endif</div>
-                    </div>
-                </div>
-
-                {{-- CTA --}}
-                @auth
-                    <div class="d-flex gap-3">
-                        <a href="{{ route('adoptions.create', $pet) }}" class="btn btn-terra flex-fill py-3 fw-500">
-                            🐾 Apply to Adopt {{ $pet->name }}
-                        </a>
-                        <form action="{{ route('favorites.toggle', $pet) }}" method="POST">
-                            @csrf
-                            <button type="submit" class="btn btn-outline-cocoa py-3 px-4">
-                                <i class="bi bi-heart{{ $isFavorited ? '-fill text-terra' : '' }}"></i>
-                            </button>
-                        </form>
-                    </div>
-                @else
-                    <div class="alert-terra p-3 rounded-3 mb-3">
-                        <i class="bi bi-info-circle me-2"></i>
-                        <a href="{{ route('login') }}" style="color:var(--terra-dark);font-weight:500">Log in</a> or
-                        <a href="{{ route('register') }}" style="color:var(--terra-dark);font-weight:500">sign up</a>
-                        to apply for adoption.
-                    </div>
-                    <a href="{{ route('register') }}" class="btn btn-terra w-100 py-3">Create Free Account to Adopt</a>
-                @endauth
             </div>
         </div>
 
-        {{-- ---- RELATED PETS ---- --}}
+        {{-- Related Pets --}}
         @if($related->count())
-        <div class="mt-5 pt-4 border-top" style="border-color:var(--tan) !important">
-            <h3 class="font-display mb-4">More {{ $pet->species_label }}s you might like</h3>
+        <div class="mt-5 pt-4" style="border-top:1px solid var(--tan)">
+            <h3 class="font-display mb-4">More {{ $pet->species_label }}s you might love</h3>
             <div class="row g-4">
                 @foreach($related as $rp)
                 <div class="col-sm-6 col-lg-3">
                     <div class="pet-card h-100" onclick="window.location='{{ route('pets.show', $rp) }}'">
                         <div class="pet-img-wrap">
                             <img src="{{ $rp->cover_url }}" alt="{{ $rp->name }}" loading="lazy">
+                            <span class="pet-badge-species">{{ $rp->species_label }}</span>
                         </div>
                         <div class="p-3">
-                            <div class="pet-name mb-1">{{ $rp->name }}</div>
-                            <div style="font-size:0.82rem;color:var(--muted)">{{ $rp->breed }} · {{ $rp->age_string }}</div>
+                            <div class="d-flex justify-content-between align-items-center mb-1">
+                                <div class="pet-name">{{ $rp->name }}</div>
+                                <span style="font-size:0.75rem;color:var(--muted);background:var(--cream);padding:2px 8px;border-radius:50px">{{ $rp->age_string }}</span>
+                            </div>
+                            <div style="font-size:0.82rem;color:var(--muted)">{{ $rp->breed ?? 'Mixed' }}</div>
+                            <div class="d-flex flex-wrap gap-1 mt-2">
+                                @foreach($rp->tags->take(2) as $tag)
+                                <span class="pet-tag">{{ $tag->name }}</span>
+                                @endforeach
+                            </div>
                         </div>
                     </div>
                 </div>

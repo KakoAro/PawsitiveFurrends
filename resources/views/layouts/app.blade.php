@@ -34,6 +34,7 @@
                 <li class="nav-item"><a class="nav-link" href="{{ route('home') }}#how">How It Works</a></li>
                 <li class="nav-item"><a class="nav-link" href="{{ route('home') }}#categories">Categories</a></li>
                 <li class="nav-item"><a class="nav-link" href="{{ route('home') }}#about">About</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ route('community.index') }}">Community</a></li>
             </ul>
             <div class="d-flex align-items-center gap-2">
                 @guest
@@ -45,6 +46,7 @@
                             <i class="bi bi-person-circle me-1"></i> {{ Auth::user()->name }}
                         </button>
                         <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" href="{{ route('profile') }}"><i class="bi bi-person-circle me-2"></i>My Profile</a></li>
                             <li><a class="dropdown-item" href="{{ route('favorites.index') }}"><i class="bi bi-heart me-2"></i>Favorites</a></li>
                             <li><a class="dropdown-item" href="{{ route('adoptions.mine') }}"><i class="bi bi-file-earmark-text me-2"></i>My Applications</a></li>
                             @if(Auth::user()->role === 'admin')
@@ -53,9 +55,11 @@
                             @endif
                             <li><hr class="dropdown-divider"></li>
                             <li>
+                                <li><a class="dropdown-item" href="{{ route('community.mine') }}"><i class="bi bi-images me-2"></i>My Community Posts</a></li>
                                 <form method="POST" action="{{ route('logout') }}">
                                     @csrf
                                     <button class="dropdown-item" type="submit"><i class="bi bi-box-arrow-right me-2"></i>Log Out</button>
+                                    
                                 </form>
                             </li>
                         </ul>
@@ -92,9 +96,9 @@
     <div class="container">
         <div class="row g-4 mb-4">
             <div class="col-lg-4">
-                <div class="font-display fs-4 mb-2" style="color:var(--terra-light)">🐾 PawHome</div>
+                <div class="font-display fs-4 mb-2" style="color:var(--terra-light)">🐾 Pawsitive Furrends</div>
                 <p style="font-size:0.85rem;font-weight:300;max-width:240px;">
-                    Connecting loving animals with loving homes since 2018. Every pet deserves a family.
+                    Connecting loving animals with loving homes. Every pet deserves a family.
                 </p>
             </div>
             <div class="col-6 col-lg-2">
@@ -102,7 +106,6 @@
                 <ul class="list-unstyled d-flex flex-column gap-2">
                     <li><a href="{{ route('pets.index') }}?species=dog">Find a Dog</a></li>
                     <li><a href="{{ route('pets.index') }}?species=cat">Find a Cat</a></li>
-                    <li><a href="{{ route('pets.index') }}?species=rabbit">Find a Rabbit</a></li>
                     <li><a href="{{ route('pets.index') }}">All Animals</a></li>
                 </ul>
             </div>
@@ -127,7 +130,7 @@
         </div>
         <hr style="border-color:rgba(255,255,255,0.1)">
         <div class="d-flex justify-content-between align-items-center flex-wrap gap-2" style="font-size:0.8rem">
-            <span>© {{ date('Y') }} PawHome · Made with ♥ for animals everywhere</span>
+            <span>© {{ date('Y') }} Pawsitive Furrends · Made with ♥ for animals everywhere</span>
             <span>🐾 Every adoption changes two lives</span>
         </div>
     </div>
