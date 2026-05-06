@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.blank')
 @section('title', 'Create Account')
 
 @section('content')

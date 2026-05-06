@@ -75,20 +75,37 @@
                     {{-- Pet Experience --}}
                     <h6 class="text-terra fw-500 mb-3 text-uppercase" style="letter-spacing:0.6px;font-size:0.8rem">Pet Experience</h6>
                     <div class="row g-3 mb-4">
-                        <div class="col-12">
-                            <label class="form-label">Do you have other pets? If yes, describe them.</label>
-                            <textarea name="other_pets" rows="2" class="form-control"
-                                      placeholder="e.g. 1 adult cat, neutered male, very calm">{{ old('other_pets') }}</textarea>
-                        </div>
-                        <div class="col-12">
-                            <label class="form-label">Previous pet experience</label>
-                            <textarea name="experience" rows="3" class="form-control"
-                                      placeholder="Tell us about any pets you've owned in the past...">{{ old('experience') }}</textarea>
-                        </div>
-                    </div>
+                       <div class="col-12">
+    <label class="form-label">Do you currently have other pets?</label>
+    <div class="d-flex gap-4 mb-3 mt-1">
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="has_other_pets"
+                   id="has_pets_yes" value="yes"
+                   {{ old('has_other_pets') === 'yes' ? 'checked' : '' }}
+                   onchange="document.getElementById('other_pets_field').style.display='block'">
+            <label class="form-check-label" for="has_pets_yes" style="font-size:0.9rem;font-weight:500">
+                Yes, I have other pets
+            </label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="has_other_pets"
+                   id="has_pets_no" value="no"
+                   {{ old('has_other_pets') === 'no' ? 'checked' : '' }}
+                   onchange="document.getElementById('other_pets_field').style.display='none'">
+            <label class="form-check-label" for="has_pets_no" style="font-size:0.9rem;font-weight:500">
+                No, I don't have other pets
+            </label>
+        </div>
+    </div>
+    <div id="other_pets_field" style="display:{{ old('has_other_pets') === 'yes' ? 'block' : 'none' }}">
+        <label class="form-label" style="font-size:0.85rem;color:var(--muted)">Please describe your other pets</label>
+        <textarea name="other_pets" rows="2" class="form-control"
+                  placeholder="e.g. 1 adult cat, neutered male, very calm">{{ old('other_pets') }}</textarea>
+    </div>
+</div>
 
                     {{-- Reason --}}
-                    <h6 class="text-terra fw-500 mb-3 text-uppercase" style="letter-spacing:0.6px;font-size:0.8rem">Why Adopt {{ $pet->name }}?</h6>
+                    <h6 style="color:var(--muted);font-weight:500;letter-spacing:0.6px;font-size:0.8rem;text-transform:uppercase">Why Adopt {{ $pet->name }}?</h6>
                     <div class="mb-4">
                         <label class="form-label">Tell us why you'd like to adopt {{ $pet->name }} <span class="text-danger">*</span></label>
                         <textarea name="reason" rows="5" class="form-control @error('reason') is-invalid @enderror"
