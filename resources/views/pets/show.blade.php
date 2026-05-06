@@ -104,17 +104,15 @@
                         <h4 class="font-display mb-4">Quick Info</h4>
                         <div class="row g-3">
                             @foreach([
-                                ['label'=>'Species',  'value'=> $pet->species_label,      'icon'=>'🐾'],
-                                ['label'=>'Breed',    'value'=> $pet->breed ?? 'Mixed',    'icon'=>'🧬'],
-                                ['label'=>'Age',      'value'=> $pet->age_string . ' (' . $pet->age_group . ')', 'icon'=>'🎂'],
-                                ['label'=>'Size',     'value'=> ucfirst($pet->size),       'icon'=>'📏'],
-                                ['label'=>'Gender',   'value'=> ucfirst($pet->gender),     'icon'=>'⚥'],
-                                ['label'=>'Color',    'value'=> $pet->color ?? 'N/A',      'icon'=>'🎨'],
-                                @if($pet->weight_kg)
-                                ['label'=>'Weight',   'value'=> $pet->weight_kg . ' kg',  'icon'=>'⚖️'],
-                                @endif
-                                ['label'=>'Status',   'value'=> ucfirst($pet->status),     'icon'=>'📌'],
-                            ] as $info)
+    ['label'=>'Species', 'value'=> $pet->species_label,       'icon'=>'🐾'],
+    ['label'=>'Breed',   'value'=> $pet->breed ?? 'Mixed',    'icon'=>'🧬'],
+    ['label'=>'Age',     'value'=> $pet->age_string . ' (' . $pet->age_group . ')', 'icon'=>'🎂'],
+    ['label'=>'Size',    'value'=> ucfirst($pet->size),        'icon'=>'📏'],
+    ['label'=>'Gender',  'value'=> ucfirst($pet->gender),      'icon'=>'⚥'],
+    ['label'=>'Color',   'value'=> $pet->color ?? 'N/A',       'icon'=>'🎨'],
+    ['label'=>'Weight',  'value'=> $pet->weight_kg ? $pet->weight_kg . ' kg' : 'N/A', 'icon'=>'⚖️'],
+    ['label'=>'Status',  'value'=> ucfirst($pet->status),      'icon'=>'📌'],
+] as $info)
                             <div class="col-6 col-md-3">
                                 <div class="text-center p-3" style="background:var(--cream);border-radius:0.9rem">
                                     <div style="font-size:1.5rem;margin-bottom:4px">{{ $info['icon'] }}</div>
