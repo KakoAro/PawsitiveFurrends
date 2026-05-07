@@ -36,107 +36,190 @@
                     <a href="{{ route('login') }}"    class="btn btn-outline-cocoa btn-sm px-3">Log In</a>
                     <a href="{{ route('register') }}" class="btn btn-terra btn-sm px-3">Sign Up</a>
                 @else
+                
+    {{-- NOTIFICATION BELL (admin only) --}}
+    @if(Auth::user()->role === 'admin')
+    @php
+        $pendingAdoptions  = \App\Models\Adoption::where('status','pending')->count();
+        $pendingCommunity  = \App\Models\CommunityPost::where('status','pending')->count();
+        $totalNotif        = $pendingAdoptions + $pendingCommunity;
+    @endphp
+    <div class="dropdown me-1">
+        <button class="btn position-relative" data-bs-toggle="dropdown"
+                style="background:transparent;border:none;padding:6px 10px">
+            <i class="bi bi-bell" style="font-size:1.3rem;color:var(--cocoa-mid)"></i>
+            @if($totalNotif > 0)
+            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill"
+                  style="background:var(--terra);font-size:0.65rem;padding:3px 6px">
+                {{ $totalNotif }}
+            </span>
+            @endif
+        </button>
+        <div class="dropdown-menu dropdown-menu-end shadow-sm p-0"
+             style="width:340px;border-radius:1rem;overflow:hidden;border:0.5px solid var(--tan)">
+            <div class="p-3" style="background:var(--cocoa);color:#fff">
+                <div style="font-weight:600;font-size:0.9rem">Pending Notifications</div>
+                <div style="font-size:0.73rem;opacity:0.7">{{ $totalNotif }} item(s) need attention</div>
+            </div>
 
-                    {{-- NOTIFICATION BELL (admin only) --}}
-                    @if(Auth::user()->role === 'admin')
-                    @php
-                        $pendingAdoptions   = \App\Models\Adoption::where('status','pending')->count();
-                        $pendingCommunity   = \App\Models\CommunityPost::where('status','pending')->count();
-                        $totalNotifications = $pendingAdoptions + $pendingCommunity;
-                    @endphp
-                    <div class="dropdown me-1">
-                        <button class="btn position-relative" data-bs-toggle="dropdown"
-                                style="background:transparent;border:none;padding:6px 10px">
-                            <i class="bi bi-bell" style="font-size:1.3rem;color:var(--cocoa-mid)"></i>
-                            @if($totalNotifications > 0)
-                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill"
-                                  style="background:var(--terra);font-size:0.65rem;padding:3px 6px">
-                                {{ $totalNotifications }}
-                            </span>
-                            @endif
-                        </button>
-                        <div class="dropdown-menu dropdown-menu-end shadow-sm p-0"
-                             style="width:320px;border-radius:1rem;overflow:hidden;border:0.5px solid var(--tan)">
-                            <div class="p-3" style="background:var(--cocoa);color:#fff">
-                                <div style="font-weight:600;font-size:0.9rem">🔔 Notifications</div>
-                                <div style="font-size:0.75rem;opacity:0.7">{{ $totalNotifications }} item(s) need attention</div>
-                            </div>
+            {{-- Pending Adoptions list --}}
+            @php $pendingList = \App\Models\Adoption::where('status','pending')->with(['pet','user'])->latest()->take(5)->get(); @endphp
 
-                            @if($pendingAdoptions > 0)
-                            <a href="{{ route('admin.adoptions.index') }}?status=pending"
-                               class="d-flex align-items-center gap-3 p-3 text-decoration-none"
-                               style="border-bottom:1px solid var(--tan)"
-                               onmouseover="this.style.background='var(--cream)'"
-                               onmouseout="this.style.background='transparent'">
-                                <div style="width:40px;height:40px;border-radius:50%;background:var(--terra-light);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:1.1rem">📋</div>
-                                <div>
-                                    <div style="font-weight:600;font-size:0.85rem;color:var(--cocoa)">Adoption Applications</div>
-                                    <div style="font-size:0.78rem;color:var(--muted)">{{ $pendingAdoptions }} pending review</div>
-                                </div>
-                                <span class="ms-auto badge" style="background:var(--terra-light);color:var(--terra-dark);border-radius:50px">{{ $pendingAdoptions }}</span>
-                            </a>
-                            @endif
-
-                            @if($pendingCommunity > 0)
-                            <a href="{{ route('admin.community.index') }}"
-                               class="d-flex align-items-center gap-3 p-3 text-decoration-none"
-                               onmouseover="this.style.background='var(--cream)'"
-                               onmouseout="this.style.background='transparent'">
-                                <div style="width:40px;height:40px;border-radius:50%;background:var(--sage-light);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:1.1rem">🐾</div>
-                                <div>
-                                    <div style="font-weight:600;font-size:0.85rem;color:var(--cocoa)">Community Posts</div>
-                                    <div style="font-size:0.78rem;color:var(--muted)">{{ $pendingCommunity }} awaiting approval</div>
-                                </div>
-                                <span class="ms-auto badge" style="background:var(--sage-light);color:var(--sage);border-radius:50px">{{ $pendingCommunity }}</span>
-                            </a>
-                            @endif
-
-                            @if($totalNotifications === 0)
-                            <div class="p-4 text-center" style="color:var(--muted);font-size:0.85rem">
-                                <div style="font-size:2rem;margin-bottom:6px">✅</div>
-                                All caught up! No pending items.
-                            </div>
-                            @endif
-
-                            <div class="p-2" style="background:var(--cream)">
-                                <a href="{{ route('admin.pets.index') }}" class="btn btn-terra btn-sm w-100" style="border-radius:50px;font-size:0.82rem">
-                                    Go to Admin Panel
-                                </a>
-                            </div>
-                        </div>
+            @forelse($pendingList as $app)
+            <div style="border-bottom:1px solid var(--tan)">
+                <div class="d-flex align-items-center gap-3 p-3">
+                    <img src="{{ $app->pet->cover_url }}" style="width:40px;height:40px;border-radius:0.5rem;object-fit:cover;flex-shrink:0">
+                    <div class="flex-fill">
+                        <div style="font-weight:600;font-size:0.82rem;color:var(--cocoa)">{{ $app->applicant_name }}</div>
+                        <div style="font-size:0.75rem;color:var(--muted)">wants to adopt {{ $app->pet->name }}</div>
+                        <div style="font-size:0.72rem;color:var(--muted)">{{ $app->created_at->diffForHumans() }}</div>
                     </div>
+                </div>
+                <div class="d-flex gap-2 px-3 pb-3">
+                    <form action="{{ route('admin.adoptions.status', $app) }}" method="POST" class="flex-fill">
+                        @csrf @method('PATCH')
+                        <input type="hidden" name="status" value="approved">
+                        <button type="submit" class="btn btn-sm w-100"
+                                style="background:var(--sage-light);color:var(--sage);border-radius:50px;font-size:0.75rem;font-weight:600"
+                                onclick="return confirm('Approve {{ $app->applicant_name }}\'s application for {{ $app->pet->name }}?')">
+                            Approve
+                        </button>
+                    </form>
+                    <form action="{{ route('admin.adoptions.status', $app) }}" method="POST" class="flex-fill">
+                        @csrf @method('PATCH')
+                        <input type="hidden" name="status" value="rejected">
+                        <button type="submit" class="btn btn-sm w-100"
+                                style="background:#fee2e2;color:#dc2626;border-radius:50px;font-size:0.75rem;font-weight:600"
+                                onclick="return confirm('Reject this application?')">
+                            Decline
+                        </button>
+                    </form>
+                    <a href="{{ route('admin.adoptions.show', $app) }}"
+                       class="btn btn-sm"
+                       style="background:var(--cream);color:var(--muted);border-radius:50px;font-size:0.75rem">
+                        View
+                    </a>
+                </div>
+            </div>
+            @empty
+            <div class="p-4 text-center" style="color:var(--muted);font-size:0.85rem">
+                <div style="font-size:2rem;margin-bottom:6px">&#10003;</div>
+                No pending applications.
+            </div>
+            @endforelse
+
+            @if($pendingCommunity > 0)
+            <a href="{{ route('admin.community.index') }}"
+               class="d-flex align-items-center gap-3 p-3 text-decoration-none"
+               style="border-top:1px solid var(--tan)"
+               onmouseover="this.style.background='var(--cream)'"
+               onmouseout="this.style.background='transparent'">
+                <div style="width:36px;height:36px;border-radius:50%;background:var(--sage-light);display:flex;align-items:center;justify-content:center;font-size:0.9rem;flex-shrink:0">C</div>
+                <div>
+                    <div style="font-weight:600;font-size:0.82rem;color:var(--cocoa)">Community Posts</div>
+                    <div style="font-size:0.75rem;color:var(--muted)">{{ $pendingCommunity }} awaiting approval</div>
+                </div>
+            </a>
+            @endif
+
+            <div class="p-2" style="background:var(--cream)">
+                <a href="{{ route('admin.adoptions.index') }}" class="btn btn-terra btn-sm w-100" style="border-radius:50px;font-size:0.82rem">
+                    View All Applications
+                </a>
+            </div>
+        </div>
+    </div>
+    @endif
+
+    {{-- GUEST NOTIFICATION BELL --}}
+    @if(Auth::user()->role !== 'admin')
+    @php
+        $unreadNotifs = \App\Models\Notification::where('user_id', Auth::id())
+            ->where('is_read', false)->count();
+    @endphp
+    <div class="dropdown me-1">
+        <button class="btn position-relative" data-bs-toggle="dropdown"
+                style="background:transparent;border:none;padding:6px 10px">
+            <i class="bi bi-bell" style="font-size:1.3rem;color:var(--cocoa-mid)"></i>
+            @if($unreadNotifs > 0)
+            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill"
+                  style="background:var(--terra);font-size:0.65rem;padding:3px 6px">
+                {{ $unreadNotifs }}
+            </span>
+            @endif
+        </button>
+        <div class="dropdown-menu dropdown-menu-end shadow-sm p-0"
+             style="width:320px;border-radius:1rem;overflow:hidden;border:0.5px solid var(--tan)">
+            <div class="p-3" style="background:var(--cocoa);color:#fff">
+                <div style="font-weight:600;font-size:0.9rem">My Notifications</div>
+                <div style="font-size:0.73rem;opacity:0.7">Updates on your applications</div>
+            </div>
+            @php
+                $myNotifs = \App\Models\Notification::where('user_id', Auth::id())
+                    ->latest('created_at')->take(6)->get();
+            @endphp
+            @forelse($myNotifs as $notif)
+            <div class="p-3" style="border-bottom:1px solid var(--tan);background:{{ $notif->is_read ? 'transparent' : 'rgba(196,113,74,0.05)' }}">
+                <div class="d-flex gap-3 align-items-start">
+                    <div style="width:34px;height:34px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:0.85rem;
+                        background:{{ str_contains($notif->type,'approved') ? 'var(--sage-light)' : (str_contains($notif->type,'rejected') ? '#fee2e2' : 'var(--terra-light)') }};
+                        color:{{ str_contains($notif->type,'approved') ? 'var(--sage)' : (str_contains($notif->type,'rejected') ? '#dc2626' : 'var(--terra)') }}">
+                        {{ str_contains($notif->type,'approved') ? 'A' : (str_contains($notif->type,'rejected') ? 'X' : 'i') }}
+                    </div>
+                    <div class="flex-fill">
+                        <div style="font-weight:600;font-size:0.82rem;color:var(--cocoa)">{{ $notif->title }}</div>
+                        <div style="font-size:0.75rem;color:var(--muted);line-height:1.5;margin-top:2px">{{ $notif->message }}</div>
+                        <div style="font-size:0.7rem;color:var(--muted);margin-top:4px">{{ \Carbon\Carbon::parse($notif->created_at)->diffForHumans() }}</div>
+                    </div>
+                    @if(!$notif->is_read)
+                    <div style="width:8px;height:8px;border-radius:50%;background:var(--terra);flex-shrink:0;margin-top:4px"></div>
                     @endif
+                </div>
+            </div>
+            @empty
+            <div class="p-4 text-center" style="color:var(--muted);font-size:0.85rem">
+                No notifications yet.
+            </div>
+            @endforelse
+            @if($unreadNotifs > 0)
+            <div class="p-2" style="background:var(--cream)">
+                <a href="{{ route('notifications.read') }}" class="btn btn-terra btn-sm w-100" style="border-radius:50px;font-size:0.82rem">
+                    Mark all as read
+                </a>
+            </div>
+            @endif
+        </div>
+    </div>
+    @endif
 
-                    {{-- USER DROPDOWN --}}
-                    <div class="dropdown">
-                        <button class="btn btn-outline-cocoa btn-sm dropdown-toggle" data-bs-toggle="dropdown">
-                            <i class="bi bi-person-circle me-1"></i> {{ Auth::user()->name }}
-                        </button>
-                        <ul class="dropdown-menu dropdown-menu-end">
-                            <li><a class="dropdown-item" href="{{ route('profile') }}"><i class="bi bi-person-circle me-2"></i>My Profile</a></li>
-                            <li><a class="dropdown-item" href="{{ route('favorites.index') }}"><i class="bi bi-heart me-2"></i>Favorites</a></li>
-                            <li><a class="dropdown-item" href="{{ route('adoptions.mine') }}"><i class="bi bi-file-earmark-text me-2"></i>My Applications</a></li>
+    {{-- USER DROPDOWN — simplified --}}
+    <div class="dropdown">
+        <button class="btn btn-outline-cocoa btn-sm dropdown-toggle position-relative" data-bs-toggle="dropdown">
+            <i class="bi bi-person-circle me-1"></i> {{ Auth::user()->name }}
+            @if(Auth::user()->role !== 'admin' && isset($unreadNotifs) && $unreadNotifs > 0)
+            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill"
+                  style="background:var(--terra);font-size:0.55rem;padding:2px 5px;transform:translate(-4px,-4px)">
+                {{ $unreadNotifs }}
+            </span>
+            @endif
+        </button>
+        <ul class="dropdown-menu dropdown-menu-end">
+            <li><a class="dropdown-item" href="{{ route('profile') }}">
+                <i class="bi bi-person-circle me-2"></i>Profile
+            </a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li>
+                <form method="POST" action="{{ route('logout') }}">
+                    @csrf
+                    <button class="dropdown-item" type="submit">
+                        <i class="bi bi-box-arrow-right me-2"></i>Log Out
+                    </button>
+                </form>
+            </li>
+        </ul>
+    </div>
 
-                            @if(Auth::user()->role === 'admin')
-                                <li><hr class="dropdown-divider"></li>
-                                <li><a class="dropdown-item" href="{{ route('admin.pets.index') }}" style="color:var(--terra);font-weight:500"><i class="bi bi-shield-check me-2"></i>Admin Panel</a></li>
-                            @else
-                                <li><a class="dropdown-item" href="{{ route('community.mine') }}"><i class="bi bi-images me-2"></i>My Community Posts</a></li>
-                            @endif
-
-                            <li><hr class="dropdown-divider"></li>
-                            <li>
-                                <form method="POST" action="{{ route('logout') }}">
-                                    @csrf
-                                    <button class="dropdown-item" type="submit">
-                                        <i class="bi bi-box-arrow-right me-2"></i>Log Out
-                                    </button>
-                                </form>
-                            </li>
-                        </ul>
-                    </div>
-
-                @endguest
+@endguest
             </div>
         </div>
     </div>

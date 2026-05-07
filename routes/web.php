@@ -14,6 +14,7 @@ use App\Models\CommunityPost;
 use App\Models\ContactMessage;
 use App\Models\ShelterPost;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;  
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
 
@@ -59,6 +60,13 @@ Route::post('/logout', [LoginController::class,    'logout'])->name('logout');
  --------------------------------------------------------------- */
 Route::middleware(['auth'])->group(function () {
 
+Route::get('/notifications/read', function() {
+    \App\Models\Notification::where('user_id', Auth::id())
+        ->where('is_read', false)
+        ->update(['is_read' => true]);
+    return back()->with('success', 'All notifications marked as read.');
+})->name('notifications.read');
+
     // Adoption application
     Route::get('/pets/{pet}/adopt', [AdoptionController::class, 'create'])->name('adoptions.create');
     Route::post('/pets/{pet}/adopt', [AdoptionController::class, 'store'])->name('adoptions.store');
@@ -71,8 +79,12 @@ Route::middleware(['auth'])->group(function () {
     // Community (authenticated - create & manage)
     Route::get('/community/create', [CommunityController::class, 'create'])->name('community.create');
     Route::post('/community', [CommunityController::class, 'store'])->name('community.store');
-    Route::get('/community/my-posts', [CommunityController::class, 'myPosts'])->name('community.mine');
+   Route::get('/community/my-posts', function() {
+    return redirect()->route('profile');
+})->name('community.mine');
     Route::get('/profile', [ProfileController::class, 'show'])->name('profile');
+
+    
 });
 
 /* ---------------------------------------------------------------
@@ -126,7 +138,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
         if ($request->hasFile('image')) {
             $validated['image'] = $request->file('image')->store('shelter-posts', 'public');
         }
-        ShelterPost::create([...$validated, 'user_id' => auth()->id()]);
+        ShelterPost::create([...$validated, 'user_id' => Auth::user()->id,]);
 
         return redirect()->route('admin.shelter-posts.index')->with('success', 'Post published successfully!');
     })->name('shelter-posts.store');
