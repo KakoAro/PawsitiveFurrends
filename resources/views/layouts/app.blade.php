@@ -192,34 +192,35 @@
     </div>
     @endif
 
-    {{-- USER DROPDOWN — simplified --}}
-    <div class="dropdown">
-        <button class="btn btn-outline-cocoa btn-sm dropdown-toggle position-relative" data-bs-toggle="dropdown">
-            <i class="bi bi-person-circle me-1"></i> {{ Auth::user()->name }}
-            @if(Auth::user()->role !== 'admin' && isset($unreadNotifs) && $unreadNotifs > 0)
-            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill"
-                  style="background:var(--terra);font-size:0.55rem;padding:2px 5px;transform:translate(-4px,-4px)">
-                {{ $unreadNotifs }}
-            </span>
-            @endif
-        </button>
-        <ul class="dropdown-menu dropdown-menu-end">
-            <li><a class="dropdown-item" href="{{ route('profile') }}">
-                <i class="bi bi-person-circle me-2"></i>Profile
-            </a></li>
-            <li><hr class="dropdown-divider"></li>
-            <li>
-                <form method="POST" action="{{ route('logout') }}">
-                    @csrf
-                    <button class="dropdown-item" type="submit">
-                        <i class="bi bi-box-arrow-right me-2"></i>Log Out
-                    </button>
-                </form>
-            </li>
-        </ul>
-    </div>
+    {{-- USER DROPDOWN --}}
+                    <div class="dropdown">
+                        <button class="btn btn-outline-cocoa btn-sm dropdown-toggle" data-bs-toggle="dropdown">
+                            <i class="bi bi-person-circle me-1"></i> {{ Auth::user()->name }}
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" href="{{ route('profile') }}">
+                                <i class="bi bi-person-circle me-2"></i>Profile
+                            </a></li>
+                            @if(Auth::user()->role === 'admin')
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="{{ route('admin.pets.index') }}"
+                                   style="color:var(--terra);font-weight:500">
+                                <i class="bi bi-shield-check me-2"></i>Admin Panel
+                            </a></li>
+                            @endif
+                            <li><hr class="dropdown-divider"></li>
+                            <li>
+                                <form method="POST" action="{{ route('logout') }}">
+                                    @csrf
+                                    <button class="dropdown-item" type="submit">
+                                        <i class="bi bi-box-arrow-right me-2"></i>Log Out
+                                    </button>
+                                </form>
+                            </li>
+                        </ul>
+                    </div>
 
-@endguest
+                @endguest
             </div>
         </div>
     </div>

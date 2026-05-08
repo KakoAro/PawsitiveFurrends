@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Adoption;
+use App\Models\Notification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -29,8 +30,7 @@ class AdminAdoptionController extends Controller
 
 
 
-   public function updateStatus(Request $request, Adoption $adoption)
-{a
+   public function updateStatus(Request $request, Adoption $adoption) {
     $request->validate([
         'status'      => 'required|in:pending,reviewing,approved,rejected,completed',
         'admin_notes' => 'nullable|string|max:1000',

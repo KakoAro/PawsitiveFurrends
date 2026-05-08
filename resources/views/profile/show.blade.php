@@ -182,53 +182,65 @@
             @endforelse
         </div>
 
-        {{-- COMMUNITY POSTS TAB --}}
-        <div id="tab-community" style="display:none">
-            <div class="d-flex justify-content-end mb-3">
-                <a href="{{ route('community.create') }}" class="btn btn-terra px-4">
-                    <i class="bi bi-plus-lg me-1"></i>New Post
-                </a>
-            </div>
-            @forelse($communityPosts as $post)
-            <div class="card border-0 shadow-sm mb-3" style="border-radius:1.2rem;background:var(--card-bg)">
-                <div class="card-body p-4">
-                    <div class="d-flex align-items-center gap-4 flex-wrap">
-                        <img src="{{ $post->image_url }}" alt="{{ $post->title }}"
-                             style="width:70px;height:70px;border-radius:0.8rem;object-fit:cover;flex-shrink:0">
-                        <div class="flex-fill">
-                            <div class="d-flex justify-content-between align-items-start flex-wrap gap-2">
-                                <div>
-                                    <span style="font-size:0.72rem;font-weight:600;background:{{ $post->category_color }};color:#fff;padding:2px 10px;border-radius:50px">
-                                        {{ $post->category_label }}
-                                    </span>
-                                    <h5 class="font-display mt-1 mb-1">{{ $post->title }}</h5>
-                                    <div style="font-size:0.82rem;color:var(--muted)">
-                                        @if($post->location) 📍 {{ $post->location }} · @endif
-                                        {{ $post->created_at->format('M d, Y') }}
-                                    </div>
-                                </div>
-                                <span class="badge px-3 py-2" style="font-size:0.82rem;border-radius:50px;
-                                    background:{{ $post->status === 'approved' ? 'var(--sage-light)' : ($post->status === 'rejected' ? '#fee2e2' : '#fef3c7') }};
-                                    color:{{ $post->status === 'approved' ? 'var(--sage)' : ($post->status === 'rejected' ? '#dc2626' : '#d97706') }}">
-                                    {{ ucfirst($post->status) }}
-                                </span>
+       {{-- COMMUNITY POSTS TAB (admin only) --}}
+@if(Auth::user()->role === 'admin')
+
+<div id="tab-community" style="display:none">
+
+    @forelse($communityPosts as $post)
+    <div class="card border-0 shadow-sm mb-3" style="border-radius:1.2rem;background:var(--card-bg)">
+        <div class="card-body p-4">
+            <div class="d-flex align-items-center gap-4 flex-wrap">
+                <img src="{{ $post->image_url }}" alt="{{ $post->title }}"
+                     style="width:70px;height:70px;border-radius:0.8rem;object-fit:cover;flex-shrink:0">
+
+                <div class="flex-fill">
+                    <div class="d-flex justify-content-between align-items-start flex-wrap gap-2">
+                        <div>
+                            <span style="font-size:0.72rem;font-weight:600;background:{{ $post->category_color }};color:#fff;padding:2px 10px;border-radius:50px">
+                                {{ $post->category_label }}
+                            </span>
+
+                            <h5 class="font-display mt-1 mb-1">{{ $post->title }}</h5>
+
+                            <div style="font-size:0.82rem;color:var(--muted)">
+                                @if($post->location)
+                                    📍 {{ $post->location }} ·
+                                @endif
+                                {{ $post->created_at->format('M d, Y') }}
                             </div>
-                            <p style="font-size:0.85rem;color:var(--muted);margin-top:0.5rem;line-height:1.6">
-                                {{ Str::limit($post->description, 120) }}
-                            </p>
                         </div>
+
+                        <span class="badge px-3 py-2" style="font-size:0.82rem;border-radius:50px;
+                            background:{{ $post->status === 'approved' ? 'var(--sage-light)' : ($post->status === 'rejected' ? '#fee2e2' : '#fef3c7') }};
+                            color:{{ $post->status === 'approved' ? 'var(--sage)' : ($post->status === 'rejected' ? '#dc2626' : '#d97706') }}">
+                            {{ ucfirst($post->status) }}
+                        </span>
                     </div>
+
+                    <p style="font-size:0.85rem;color:var(--muted);margin-top:0.5rem;line-height:1.6">
+                        {{ Str::limit($post->description, 120) }}
+                    </p>
                 </div>
             </div>
-            @empty
-            <div class="text-center py-5">
-                <div style="font-size:3rem">📷</div>
-                <h5 class="font-display mt-3">No posts yet</h5>
-                <p style="color:var(--muted)">Share a stray, lost, or rescued pet to help your community!</p>
-                <a href="{{ route('community.create') }}" class="btn btn-terra px-4 py-2 mt-2">Create First Post</a>
-            </div>
-            @endforelse
         </div>
+    </div>
+
+    @empty
+    <div class="text-center py-5">
+        <div style="font-size:3rem">📷</div>
+        <h5 class="font-display mt-3">No posts yet</h5>
+        <p style="color:var(--muted)">Share a stray, lost, or rescued pet to help your community!</p>
+
+        <a href="{{ route('community.create') }}" class="btn btn-terra px-4 py-2 mt-2">
+            Create First Post
+        </a>
+    </div>
+    @endforelse
+
+</div>
+
+@endif
 
     </div>
 </section>

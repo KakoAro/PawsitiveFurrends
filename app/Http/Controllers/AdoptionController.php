@@ -20,15 +20,16 @@ class AdoptionController extends Controller
         abort_if($pet->status !== 'available', 404);
 
         $validated = $request->validate([
-            'applicant_name'  => 'required|string|max:100',
-            'applicant_email' => 'required|email|max:180',
-            'applicant_phone' => 'required|string|max:30',
-            'address'         => 'required|string',
-            'housing_type'    => 'required|in:house,apartment,condo,other',
-            'has_yard'        => 'boolean',
-            'other_pets'      => 'nullable|string|max:500',
-            'reason'          => 'required|string|min:50|max:1000',
-            'experience'      => 'nullable|string|max:1000',
+            'applicant_name'   => 'required|string|max:100',
+            'applicant_email'  => 'required|email|max:180',
+            'applicant_phone'  => 'required|string|max:30',
+            'address'          => 'required|string',
+            'housing_type'     => 'required|in:house,apartment,condo,other',
+            'has_yard'         => 'boolean',
+            'other_pets'       => 'nullable|string|max:500',
+            'reason'           => 'required|string|min:50|max:1000',
+            'experience'       => 'nullable|string|max:1000',
+            'application_type' => 'required|in:adopt,foster',
         ]);
 
         // Prevent duplicate applications
@@ -43,18 +44,18 @@ class AdoptionController extends Controller
 
         Adoption::create([
             ...$validated,
-            'pet_id'     => $pet->id,
-            'user_id'    => Auth::id(),
-            'shelter_id' => $pet->shelter_id,
-            'has_yard'   => $request->boolean('has_yard'),
-            'status'     => 'pending',
+            'pet_id'           => $pet->id,
+            'user_id'          => Auth::id(),
+            'shelter_id'       => $pet->shelter_id,
+            'has_yard'         => $request->boolean('has_yard'),
+            'application_type' => $request->application_type,
+            'status'           => 'pending',
         ]);
 
-        // Mark pet as pending
         $pet->update(['status' => 'pending']);
 
         return redirect()->route('adoptions.mine')
-            ->with('success', "Your application for {$pet->name} has been submitted! We'll be in touch within 24 hours.");
+            ->with('success', "Your {$request->application_type} application for {$pet->name} has been submitted! We'll be in touch within 24 hours.");
     }
 
     public function myApplications()

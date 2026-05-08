@@ -9,7 +9,7 @@ class Adoption extends Model
     protected $fillable = [
         'pet_id','user_id','shelter_id',
         'applicant_name','applicant_email','applicant_phone',
-        'address','housing_type','has_yard',
+        'address','housing_type','has_yard','application_type',
         'other_pets','reason','experience',
         'status','admin_notes','reviewed_at','reviewed_by',
     ];
