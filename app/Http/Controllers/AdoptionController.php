@@ -54,6 +54,19 @@ class AdoptionController extends Controller
 
         $pet->update(['status' => 'pending']);
 
+        // Notify all admin users about the new application
+        $adminUsers = \App\Models\User::where('role', 'admin')->get();
+        foreach ($adminUsers as $admin) {
+            \App\Models\Notification::create([
+                'user_id'    => $admin->id,
+                'title'      => 'New Adoption Application',
+                'message'    => Auth::user()->name . " has applied to adopt {$pet->name}. Application type: {$request->application_type}",
+                'type'       => 'new_adoption',
+                'related_id' => $pet->id,
+                'is_read'    => false,
+            ]);
+        }
+
         return redirect()->route('adoptions.mine')
             ->with('success', "Your {$request->application_type} application for {$pet->name} has been submitted! We'll be in touch within 24 hours.");
     }

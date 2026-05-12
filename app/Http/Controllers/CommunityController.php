@@ -52,6 +52,19 @@ class CommunityController extends Controller
             'status'  => 'pending',
         ]);
 
+        // Notify all admin users about the new community post pending review
+        $adminUsers = \App\Models\User::where('role', 'admin')->get();
+        foreach ($adminUsers as $admin) {
+            \App\Models\Notification::create([
+                'user_id'    => $admin->id,
+                'title'      => 'New Community Post',
+                'message'    => Auth::user()->name . " submitted a new community post: \"{$request->title}\" awaiting your review.",
+                'type'       => 'new_community_post',
+                'related_id' => 0, // Could be post ID after creation, but for simplicity we can set to 0 or null
+                'is_read'    => false,
+            ]);
+        }
+
         return redirect()->route('community.index')
             ->with('success', 'Your post has been submitted and is pending review. Thank you for helping! 🐾');
     }

@@ -1,5 +1,9 @@
 @extends('layouts.app')
-@section('title', 'My Profile')
+@php
+    $isOwnProfile = Auth::id() === $user->id;
+    $isAdmin = Auth::user()->role === 'admin';
+@endphp
+@section('title', $isOwnProfile ? 'My Profile' : $user->name . "'s Profile")
 
 @section('content')
 <div style="padding-top:80px"></div>
@@ -18,12 +22,14 @@
                         </div>
                         <div class="pb-2">
                             <h2 class="font-display mb-0">{{ $user->name }}</h2>
+                            @if($isOwnProfile || $isAdmin)
                             <div style="color:var(--muted);font-size:0.85rem">{{ $user->email }}</div>
                             @if($user->phone)
                             <div style="color:var(--muted);font-size:0.85rem">📞 {{ $user->phone }}</div>
                             @endif
+                            @endif
                             <div style="font-size:0.78rem;color:var(--muted);margin-top:3px">
-                                <i class="bi bi-calendar3 me-1"></i>Member since {{ $user->created_at->format('F Y') }}
+                                <i class="bi bi-calendar3 me-1"></i>Member since {{ optional($user->created_at)->format('F Y') }}
                             </div>
                         </div>
                     </div>
@@ -119,19 +125,36 @@
 
          {{-- Tabs --}}
          <div class="d-flex gap-2 mb-4 flex-wrap" id="profileTabs">
-             <button class="filter-tab active" onclick="showTab('adoptions', this)">
-                 📋 Adoption Applications
-                 <span class="badge ms-1" style="background:var(--terra);color:#fff;border-radius:50px;font-size:0.7rem;padding:2px 7px">{{ $adoptions->count() }}</span>
-             </button>
-             <button class="filter-tab" onclick="showTab('community', this)">
-                 🐾 My Community Posts
-                 <span class="badge ms-1" style="background:var(--terra);color:#fff;border-radius:50px;font-size:0.7rem;padding:2px 7px">{{ $communityPosts->count() }}</span>
-             </button>
-             <button class="filter-tab" onclick="showTab('favorites', this)">
-                 ❤️ My Favorites
-                 <span class="badge ms-1" style="background:var(--terra);color:#fff;border-radius:50px;font-size:0.7rem;padding:2px 7px">{{ auth()->user()->favoritePets()->count() }}</span>
-             </button>
-         </div>
+              <button class="filter-tab active" onclick="showTab('adoptions', this)">
+                  📋 Adoption Applications
+                  <span class="badge ms-1" style="background:var(--terra);color:#fff;border-radius:50px;font-size:0.7rem;padding:2px 7px">{{ $adoptions->count() }}</span>
+              </button>
+
+              @if($isAdmin)
+                  {{-- Admin: Favorites tab in second position --}}
+                  <button class="filter-tab" onclick="showTab('favorites', this)">
+                      ❤️ {{ $isOwnProfile ? 'My Favorites' : 'Favorites' }}
+                      <span class="badge ms-1" style="background:var(--terra);color:#fff;border-radius:50px;font-size:0.7rem;padding:2px 7px">{{ $favoritePets->count() }}</span>
+                  </button>
+                  {{-- Admin: Share a Pet tab third (only on own profile) --}}
+                  @if($isOwnProfile)
+                  <button class="filter-tab" onclick="showTab('sharepet', this)">
+                      📤 Share a Pet
+                  </button>
+                  @endif
+              @else
+                  {{-- Guest: Community Posts tab second --}}
+                  <button class="filter-tab" onclick="showTab('community', this)">
+                      🐾 {{ $isOwnProfile ? 'My Community Posts' : 'Community Posts' }}
+                      <span class="badge ms-1" style="background:var(--terra);color:#fff;border-radius:50px;font-size:0.7rem;padding:2px 7px">{{ $communityPosts->count() }}</span>
+                  </button>
+                  {{-- Guest: Favorites tab third --}}
+                  <button class="filter-tab" onclick="showTab('favorites', this)">
+                      ❤️ {{ $isOwnProfile ? 'My Favorites' : 'Favorites' }}
+                      <span class="badge ms-1" style="background:var(--terra);color:#fff;border-radius:50px;font-size:0.7rem;padding:2px 7px">{{ $favoritePets->count() }}</span>
+                  </button>
+              @endif
+          </div>
 
         {{-- ADOPTIONS TAB --}}
         <div id="tab-adoptions">
@@ -147,7 +170,7 @@
                                     <h5 class="font-display mb-1">{{ $adoption->pet->name }}</h5>
                                     <div style="font-size:0.85rem;color:var(--muted)">{{ $adoption->pet->breed }} · {{ $adoption->shelter->name }}</div>
                                     <div style="font-size:0.8rem;color:var(--muted);margin-top:4px">
-                                        📅 Applied {{ $adoption->created_at->format('M d, Y') }}
+                                        📅 Applied {{ optional($adoption->created_at)->format('M d, Y') }}
                                     </div>
                                 </div>
                                 <span class="badge px-3 py-2" style="font-size:0.82rem;border-radius:50px;
@@ -167,11 +190,11 @@
                                     {{ ucfirst($adoption->status) }}
                                 </span>
                             </div>
-                            @if($adoption->admin_notes)
-                            <div class="mt-2 p-2 rounded-2" style="background:var(--warm-white);font-size:0.82rem;color:var(--muted)">
-                                <i class="bi bi-chat-left-text me-1"></i><strong>Shelter note:</strong> {{ $adoption->admin_notes }}
-                            </div>
-                            @endif
+                                @if($adoption->admin_notes && ($isOwnProfile || $isAdmin))
+                                <div class="mt-2 p-2 rounded-2" style="background:var(--warm-white);font-size:0.82rem;color:var(--muted)">
+                                    <i class="bi bi-chat-left-text me-1"></i><strong>Shelter note:</strong> {{ $adoption->admin_notes }}
+                                </div>
+                                @endif
                         </div>
                     </div>
                 </div>
@@ -186,9 +209,9 @@
              @endforelse
          </div>
  
-         {{-- FAVORITES TAB --}}
-         <div id="tab-favorites" style="display:none">
-             @forelse($user->favoritePets as $pet)
+          {{-- FAVORITES TAB --}}
+          <div id="tab-favorites" style="display:none">
+              @forelse($favoritePets as $pet)
              <div class="card border-0 shadow-sm mb-3" style="border-radius:1.2rem;background:var(--card-bg)">
                  <div class="card-body p-4">
                      <div class="d-flex align-items-center gap-4 flex-wrap">
@@ -199,20 +222,22 @@
                                  <div>
                                      <h5 class="font-display mb-1">{{ $pet->name }}</h5>
                                      <div style="font-size:0.85rem;color:var(--muted)">{{ $pet->breed }} · {{ $pet->shelter->name }}</div>
-                                     <div style="font-size:0.8rem;color:var(--muted);margin-top:4px">
-                                         📅 Favorited {{ $pet->pivot->created_at->format('M d, Y') }}
-                                     </div>
+                                      <div style="font-size:0.8rem;color:var(--muted);margin-top:4px">
+                                          📅 Favorited {{ optional($pet->pivot->created_at)->format('M d, Y') }}
+                                      </div>
                                  </div>
-                                 <a href="{{ route('pets.show', $pet) }}" class="btn btn-outline-cocoa px-3 py-2" style="font-size:0.85rem">
-                                     View Pet
-                                 </a>
-                                 <form action="{{ route('favorites.toggle', $pet) }}" method="POST" style="display:inline">
-                                     @csrf
-                                     @method('DELETE')
-                                     <button type="submit" class="btn btn-outline-cocoa px-3 py-2" style="font-size:0.85rem">
-                                         Remove ❤️
-                                     </button>
-                                 </form>
+                                  <a href="{{ route('pets.show', $pet) }}" class="btn btn-outline-cocoa px-3 py-2" style="font-size:0.85rem">
+                                      View Pet
+                                  </a>
+                                  @if($isOwnProfile)
+                                  <form action="{{ route('favorites.toggle', $pet) }}" method="POST" style="display:inline">
+                                      @csrf
+                                      @method('DELETE')
+                                      <button type="submit" class="btn btn-outline-cocoa px-3 py-2" style="font-size:0.85rem">
+                                          Remove ❤️
+                                      </button>
+                                  </form>
+                                  @endif
                              </div>
                          </div>
                      </div>
@@ -228,10 +253,10 @@
              @endforelse
          </div>
  
-        {{-- COMMUNITY POSTS TAB (admin only) --}}
-@if(Auth::user()->role === 'admin')
+        {{-- COMMUNITY POSTS TAB (guest only) --}}
+        @if(Auth::user()->role !== 'admin')
 
-<div id="tab-community" style="display:none">
+        <div id="tab-community" style="display:none">
 
     @forelse($communityPosts as $post)
     <div class="card border-0 shadow-sm mb-3" style="border-radius:1.2rem;background:var(--card-bg)">
@@ -253,7 +278,7 @@
                                 @if($post->location)
                                     📍 {{ $post->location }} ·
                                 @endif
-                                {{ $post->created_at->format('M d, Y') }}
+                                {{ optional($post->created_at)->format('M d, Y') }}
                             </div>
                         </div>
 
@@ -277,10 +302,11 @@
         <div style="font-size:3rem">📷</div>
         <h5 class="font-display mt-3">No posts yet</h5>
         <p style="color:var(--muted)">Share a stray, lost, or rescued pet to help your community!</p>
-
+        @if($isOwnProfile)
         <a href="{{ route('community.create') }}" class="btn btn-terra px-4 py-2 mt-2">
             Create First Post
         </a>
+        @endif
     </div>
     @endforelse
 
@@ -294,9 +320,13 @@
 @push('scripts')
 <script>
 function showTab(tab, btn) {
-    document.getElementById('tab-adoptions').style.display = 'none';
-    document.getElementById('tab-community').style.display = 'none';
+    // Hide all tab panes that have id starting with 'tab-'
+    document.querySelectorAll('[id^="tab-"]').forEach(el => {
+        el.style.display = 'none';
+    });
+    // Show the selected tab pane
     document.getElementById('tab-' + tab).style.display = 'block';
+    // Update active state on buttons
     document.querySelectorAll('#profileTabs .filter-tab').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
 }

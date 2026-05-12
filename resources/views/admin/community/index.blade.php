@@ -49,7 +49,7 @@
                                 </div>
                             </td>
                             <td><span style="font-size:0.78rem;font-weight:600;background:{{ $post->category_color }};color:#fff;padding:3px 10px;border-radius:50px">{{ $post->category_label }}</span></td>
-                            <td style="font-size:0.85rem;color:var(--muted)">{{ $post->user->name }}</td>
+                            <td style="font-size:0.85rem;color:var(--muted)"><a href="{{ route('users.show', $post->user) }}" class="text-decoration-none" style="color:inherit">{{ $post->user->name }}</a></td>
                             <td>
                                 <span class="badge" style="background:{{ $post->status === 'approved' ? 'var(--sage-light)' : ($post->status === 'rejected' ? '#fee2e2' : '#fef3c7') }};color:{{ $post->status === 'approved' ? 'var(--sage)' : ($post->status === 'rejected' ? '#dc2626' : '#d97706') }}">
                                     {{ ucfirst($post->status) }}

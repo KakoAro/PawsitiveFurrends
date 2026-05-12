@@ -34,10 +34,10 @@ class User extends Authenticatable
     {
         return $this->role === $role;
     }
- public function favoritePets()
+    public function favoritePets()
     {
         return $this->belongsToMany(
             \App\Models\Pet::class, 'favorites'
-     );
+        )->withPivot('created_at');
     }
 }

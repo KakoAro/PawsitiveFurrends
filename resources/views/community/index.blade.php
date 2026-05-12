@@ -55,7 +55,7 @@
                         <div style="font-size:0.8rem;color:var(--muted);margin-bottom:0.8rem">📞 {{ $post->contact }}</div>
                         @endif
                         <div style="font-size:0.75rem;color:var(--muted);border-top:1px solid var(--tan);padding-top:0.7rem;margin-top:0.5rem">
-                            Posted by <strong>{{ $post->user->name }}</strong> · {{ $post->created_at->diffForHumans() }}
+                            Posted by <a href="{{ route('users.show', $post->user) }}" class="text-decoration-none" style="color:inherit;font-weight:500">{{ $post->user->name }}</a> · {{ $post->created_at->diffForHumans() }}
                         </div>
                     </div>
                 </div>

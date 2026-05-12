@@ -83,6 +83,7 @@ Route::get('/notifications/read', function() {
     return redirect()->route('profile');
 })->name('community.mine');
     Route::get('/profile', [ProfileController::class, 'show'])->name('profile');
+    Route::get('/users/{user}', [ProfileController::class, 'showUser'])->name('users.show');
 
     
 });
