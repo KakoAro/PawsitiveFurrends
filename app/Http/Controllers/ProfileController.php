@@ -23,6 +23,8 @@ class ProfileController extends Controller
             ->latest()
             ->get();
 
-        return view('profile.show', compact('user', 'adoptions', 'communityPosts'));
+        $favoritePets = $user->favoritePets()->with(['tags','shelter'])->get();
+
+        return view('profile.show', compact('user', 'adoptions', 'communityPosts', 'favoritePets'));
     }
 }

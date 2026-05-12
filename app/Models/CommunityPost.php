@@ -29,7 +29,6 @@ class CommunityPost extends Model
             'rescued'      => '💚 Rescued',
             'lost'         => '🔍 Lost',
             'found'        => '✅ Found',
-            'for_adoption' => '🏠 For Adoption',
             default        => ucfirst($this->category),
         };
     }

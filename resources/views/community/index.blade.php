@@ -24,7 +24,7 @@
 
         {{-- Category Filter --}}
         <div class="d-flex gap-2 flex-wrap mb-4">
-            @foreach(['' => 'All', 'stray' => '🐾 Stray', 'rescued' => '💚 Rescued', 'lost' => '🔍 Lost', 'found' => '✅ Found', 'for_adoption' => '🏠 For Adoption'] as $val => $label)
+            @foreach(['' => 'All', 'stray' => '🐾 Stray', 'rescued' => '💚 Rescued', 'lost' => '🔍 Lost', 'found' => '✅ Found'] as $val => $label)
             <a href="{{ route('community.index') }}{{ $val ? '?category='.$val : '' }}"
                class="filter-tab {{ request('category', '') === $val ? 'active' : '' }}">
                 {{ $label }}

@@ -182,9 +182,9 @@
                     <div class="mb-4">
                         <label class="form-label">Tell us why you'd like to adopt {{ $pet->name }} <span class="text-danger">*</span></label>
                         <textarea name="reason" rows="5" class="form-control @error('reason') is-invalid @enderror"
-                                  placeholder="Share your reasons for adopting, your lifestyle, daily routine, and how you plan to care for {{ $pet->name }}. (Minimum 50 characters)" required>{{ old('reason') }}</textarea>
+                                  placeholder="Share your reasons for adopting, your lifestyle, daily routine, and how you plan to care for {{ $pet->name }}. (Minimum 10 characters)" required>{{ old('reason') }}</textarea>
                         @error('reason')<div class="invalid-feedback">{{ $message }}</div>@enderror
-                        <div style="font-size:0.75rem;color:var(--muted);margin-top:4px">Minimum 50 characters</div>
+                        <div style="font-size:0.75rem;color:var(--muted);margin-top:4px">Minimum 10 characters</div>
                     </div>
 
                     <div class="d-flex gap-3 pt-2">

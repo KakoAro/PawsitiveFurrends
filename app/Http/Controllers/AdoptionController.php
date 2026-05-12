@@ -27,7 +27,7 @@ class AdoptionController extends Controller
             'housing_type'     => 'required|in:house,apartment,condo,other',
             'has_yard'         => 'boolean',
             'other_pets'       => 'nullable|string|max:500',
-            'reason'           => 'required|string|min:50|max:1000',
+            'reason'           => 'required|string|min:10|max:1000',
             'experience'       => 'nullable|string|max:1000',
             'application_type' => 'required|in:adopt,foster',
         ]);

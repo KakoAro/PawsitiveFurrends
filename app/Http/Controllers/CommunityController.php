@@ -10,11 +10,18 @@ class CommunityController extends Controller
 {
     public function index()
     {
-        $posts = CommunityPost::query()
-    ->where('status', 'approved')
-    ->with('user')
-    ->latest()
-    ->paginate(12);
+        $query = CommunityPost::query()
+            ->where('status', 'approved')
+            ->with('user');
+
+        $category = request()->get('category');
+        // Only apply filter if category is provided and valid
+        if ($category && in_array($category, ['stray', 'rescued', 'lost', 'found'])) {
+            $query->where('category', $category);
+        }
+
+        $posts = $query->latest()
+            ->paginate(12);
 
         return view('community.index', compact('posts'));
     }
@@ -29,7 +36,7 @@ class CommunityController extends Controller
         $validated = $request->validate([
             'title'       => 'required|string|max:200',
             'description' => 'required|string|min:20|max:1000',
-            'category'    => 'required|in:stray,rescued,lost,found,for_adoption',
+             'category'    => 'required|in:stray,rescued,lost,found',
             'location'    => 'nullable|string|max:200',
             'contact'     => 'nullable|string|max:100',
             'image'       => 'nullable|image|max:3072',

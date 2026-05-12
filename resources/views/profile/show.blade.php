@@ -117,17 +117,21 @@
             </div>
         </div>
 
-        {{-- Tabs --}}
-        <div class="d-flex gap-2 mb-4 flex-wrap" id="profileTabs">
-            <button class="filter-tab active" onclick="showTab('adoptions', this)">
-                📋 Adoption Applications
-                <span class="badge ms-1" style="background:var(--terra);color:#fff;border-radius:50px;font-size:0.7rem;padding:2px 7px">{{ $adoptions->count() }}</span>
-            </button>
-            <button class="filter-tab" onclick="showTab('community', this)">
-                🐾 My Community Posts
-                <span class="badge ms-1" style="background:var(--terra);color:#fff;border-radius:50px;font-size:0.7rem;padding:2px 7px">{{ $communityPosts->count() }}</span>
-            </button>
-        </div>
+         {{-- Tabs --}}
+         <div class="d-flex gap-2 mb-4 flex-wrap" id="profileTabs">
+             <button class="filter-tab active" onclick="showTab('adoptions', this)">
+                 📋 Adoption Applications
+                 <span class="badge ms-1" style="background:var(--terra);color:#fff;border-radius:50px;font-size:0.7rem;padding:2px 7px">{{ $adoptions->count() }}</span>
+             </button>
+             <button class="filter-tab" onclick="showTab('community', this)">
+                 🐾 My Community Posts
+                 <span class="badge ms-1" style="background:var(--terra);color:#fff;border-radius:50px;font-size:0.7rem;padding:2px 7px">{{ $communityPosts->count() }}</span>
+             </button>
+             <button class="filter-tab" onclick="showTab('favorites', this)">
+                 ❤️ My Favorites
+                 <span class="badge ms-1" style="background:var(--terra);color:#fff;border-radius:50px;font-size:0.7rem;padding:2px 7px">{{ auth()->user()->favoritePets()->count() }}</span>
+             </button>
+         </div>
 
         {{-- ADOPTIONS TAB --}}
         <div id="tab-adoptions">
@@ -179,10 +183,52 @@
                 <p style="color:var(--muted)">Browse our pets and apply to adopt one!</p>
                 <a href="{{ route('pets.index') }}" class="btn btn-terra px-4 py-2 mt-2">Find a Pet</a>
             </div>
-            @endforelse
-        </div>
-
-       {{-- COMMUNITY POSTS TAB (admin only) --}}
+             @endforelse
+         </div>
+ 
+         {{-- FAVORITES TAB --}}
+         <div id="tab-favorites" style="display:none">
+             @forelse($user->favoritePets as $pet)
+             <div class="card border-0 shadow-sm mb-3" style="border-radius:1.2rem;background:var(--card-bg)">
+                 <div class="card-body p-4">
+                     <div class="d-flex align-items-center gap-4 flex-wrap">
+                         <img src="{{ $pet->cover_url }}" alt="{{ $pet->name }}"
+                              style="width:70px;height:70px;border-radius:0.8rem;object-fit:cover;flex-shrink:0">
+                         <div class="flex-fill">
+                             <div class="d-flex justify-content-between align-items-start flex-wrap gap-2">
+                                 <div>
+                                     <h5 class="font-display mb-1">{{ $pet->name }}</h5>
+                                     <div style="font-size:0.85rem;color:var(--muted)">{{ $pet->breed }} · {{ $pet->shelter->name }}</div>
+                                     <div style="font-size:0.8rem;color:var(--muted);margin-top:4px">
+                                         📅 Favorited {{ $pet->pivot->created_at->format('M d, Y') }}
+                                     </div>
+                                 </div>
+                                 <a href="{{ route('pets.show', $pet) }}" class="btn btn-outline-cocoa px-3 py-2" style="font-size:0.85rem">
+                                     View Pet
+                                 </a>
+                                 <form action="{{ route('favorites.toggle', $pet) }}" method="POST" style="display:inline">
+                                     @csrf
+                                     @method('DELETE')
+                                     <button type="submit" class="btn btn-outline-cocoa px-3 py-2" style="font-size:0.85rem">
+                                         Remove ❤️
+                                     </button>
+                                 </form>
+                             </div>
+                         </div>
+                     </div>
+                 </div>
+             </div>
+             @empty
+             <div class="text-center py-5">
+                 <div style="font-size:3rem">❤️</div>
+                 <h5 class="font-display mt-3">No favorites yet</h5>
+                 <p style="color:var(--muted)">Browse our pets and click the heart icon to save your favorites!</p>
+                 <a href="{{ route('pets.index') }}" class="btn btn-terra px-4 py-2 mt-2">Find a Pet</a>
+             </div>
+             @endforelse
+         </div>
+ 
+        {{-- COMMUNITY POSTS TAB (admin only) --}}
 @if(Auth::user()->role === 'admin')
 
 <div id="tab-community" style="display:none">

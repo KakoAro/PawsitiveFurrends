@@ -23,17 +23,16 @@
                     </div>
                     @endif
 
-                    <div class="mb-3">
-                        <label class="form-label">Category <span class="text-danger">*</span></label>
-                        <select name="category" class="form-select" required>
-                            <option value="">Select category</option>
-                            <option value="stray"        {{ old('category') === 'stray'        ? 'selected' : '' }}>🐾 Stray</option>
-                            <option value="rescued"      {{ old('category') === 'rescued'      ? 'selected' : '' }}>💚 Rescued</option>
-                            <option value="lost"         {{ old('category') === 'lost'         ? 'selected' : '' }}>🔍 Lost</option>
-                            <option value="found"        {{ old('category') === 'found'        ? 'selected' : '' }}>✅ Found</option>
-                            <option value="for_adoption" {{ old('category') === 'for_adoption' ? 'selected' : '' }}>🏠 For Adoption</option>
-                        </select>
-                    </div>
+<div class="mb-3">
+    <label class="form-label">Category <span class="text-danger">*</span></label>
+    <select name="category" class="form-select" required>
+        <option value="">Select category</option>
+        <option value="stray"        {{ old('category') === 'stray'        ? 'selected' : '' }}>🐾 Stray</option>
+        <option value="rescued"      {{ old('category') === 'rescued'      ? 'selected' : '' }}>💚 Rescued</option>
+        <option value="lost"         {{ old('category') === 'lost'         ? 'selected' : '' }}>🔍 Lost</option>
+        <option value="found"        {{ old('category') === 'found'        ? 'selected' : '' }}>✅ Found</option>
+    </select>
+</div>
 
                     <div class="mb-3">
                         <label class="form-label">Title <span class="text-danger">*</span></label>
