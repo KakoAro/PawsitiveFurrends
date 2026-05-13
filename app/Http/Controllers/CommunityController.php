@@ -53,7 +53,9 @@ class CommunityController extends Controller
         ]);
 
         // Notify all admin users about the new community post pending review
-        $adminUsers = \App\Models\User::where('role', 'admin')->get();
+        $adminUsers = \App\Models\User::query()
+            ->where('is_admin', true)
+            ->get();
         foreach ($adminUsers as $admin) {
             \App\Models\Notification::create([
                 'user_id'    => $admin->id,

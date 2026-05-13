@@ -15,7 +15,7 @@
 
     <div class="admin-content flex-fill p-5" style="padding-top:2rem !important">
         <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
-            <h2 class="font-display mb-0">Adoption Applications</h2>
+            <h2 class="font-display mb-0">Adoption Applications(test view)</h2>
             {{-- Status filter --}}
             <div class="d-flex gap-2 flex-wrap">
                 @foreach([''=>'All','pending'=>'Pending','reviewing'=>'Reviewing','approved'=>'Approved','rejected'=>'Rejected','completed'=>'Completed'] as $val => $label)
@@ -57,7 +57,7 @@
                                 </div>
                             </td>
                             <td>
-                                <a href="{{ route('users.show', $adoption->user) }}" class="text-decoration-none" style="color:inherit;font-weight:500">{{ $adoption->applicant_name }}</a>
+                                <div style="font-weight:500;font-size:0.88rem">{{ $adoption->applicant_name }}</div>
                                 <div style="font-size:0.75rem;color:var(--muted)">{{ $adoption->applicant_email }}</div>
                             </td>
                             <td style="font-size:0.85rem;color:var(--muted)">{{ $app->shelter->name }}</td>

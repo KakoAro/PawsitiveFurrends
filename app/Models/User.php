@@ -38,6 +38,6 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(
             \App\Models\Pet::class, 'favorites'
-        )->withPivot('created_at');
+        );
     }
 }

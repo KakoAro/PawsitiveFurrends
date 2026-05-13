@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Adoption;
 use App\Models\CommunityPost;
-use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
 class ProfileController extends Controller
@@ -13,24 +12,6 @@ class ProfileController extends Controller
     {
         $user = Auth::user();
 
-        $adoptions = Adoption::query()
-            ->where('user_id', $user->id)
-            ->with(['pet', 'shelter'])
-            ->latest()
-            ->get();
-
-        $communityPosts = CommunityPost::query()
-            ->where('user_id', $user->id)
-            ->latest()
-            ->get();
-
-        $favoritePets = $user->favoritePets()->with(['tags','shelter'])->get();
-
-        return view('profile.show', compact('user', 'adoptions', 'communityPosts', 'favoritePets'));
-    }
-
-    public function showUser(User $user)
-    {
         $adoptions = Adoption::query()
             ->where('user_id', $user->id)
             ->with(['pet', 'shelter'])

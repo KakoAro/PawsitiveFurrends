@@ -60,6 +60,12 @@ Route::post('/logout', [LoginController::class,    'logout'])->name('logout');
  --------------------------------------------------------------- */
 Route::middleware(['auth'])->group(function () {
 
+// routes/web.php
+Route::get('/users/{user}', [UserController::class, 'show'])->name('users.show');
+
+// OR for a community feature:
+Route::get('/community/users/{user}', [UserController::class, 'show'])->name('users.show');
+
 Route::get('/notifications/read', function() {
     \App\Models\Notification::where('user_id', Auth::id())
         ->where('is_read', false)
@@ -83,7 +89,6 @@ Route::get('/notifications/read', function() {
     return redirect()->route('profile');
 })->name('community.mine');
     Route::get('/profile', [ProfileController::class, 'show'])->name('profile');
-    Route::get('/users/{user}', [ProfileController::class, 'showUser'])->name('users.show');
 
     
 });
