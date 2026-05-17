@@ -139,13 +139,11 @@
                                         <img src="{{ $pet->cover_url }}" alt="{{ $pet->name }}" loading="lazy" />
                                         <span class="pet-badge-species">{{ $pet->species_label }}</span>
                                         @auth
-                                            <form action="{{ route('favorites.toggle', $pet) }}" method="POST"
-                                                onclick="event.stopPropagation()">
-                                                @csrf
-                                                <button type="submit" class="btn-fav">
-                                                    <i class="bi bi-heart"></i>
-                                                </button>
-                                            </form>
+                                            <button type="button" class="btn-fav heart-toggle" 
+                                                data-pet-id="{{ $pet->id }}"
+                                                onclick="event.stopPropagation(); toggleFavorite(this)">
+                                                <i class="bi bi-heart"></i>
+                                            </button>
                                         @endauth
                                     </div>
                                     <div class="p-3">
@@ -164,17 +162,6 @@
                                          <div class="d-flex justify-content-between align-items-center">
                                              <span style="font-size:0.78rem;color:var(--muted)">📍
                                                  {{ $pet->shelter->city }}</span>
-                                             @auth
-                                                 @if (Auth::user()->role !== 'admin')
-                                                     <form action="{{ route('favorites.toggle', $pet) }}" method="POST"
-                                                         onclick="event.stopPropagation()">
-                                                         @csrf
-                                                         <button type="submit" class="btn-fav">
-                                                             <i class="bi bi-heart"></i>
-                                                         </button>
-                                                     </form>
-                                                 @endif
-                                             @endauth
                                          </div>
                                     </div>
                                 </div>
@@ -199,4 +186,121 @@
             </div>
         </div>
     </section>
+
+    <script>
+        function showNotification(message) {
+            // Create a simple toast notification
+            const toast = document.createElement('div');
+            toast.style.cssText = `
+                position: fixed;
+                top: 100px;
+                right: 20px;
+                background: var(--terra);
+                color: white;
+                padding: 12px 24px;
+                border-radius: 8px;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+                z-index: 9999;
+                font-size: 0.9rem;
+                animation: slideIn 0.3s ease-out;
+            `;
+            toast.textContent = message;
+            document.body.appendChild(toast);
+            
+            // Auto remove after 3 seconds
+            setTimeout(() => {
+                toast.style.animation = 'slideOut 0.3s ease-out';
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+
+        async function toggleFavorite(button) {
+            const petId = button.dataset.petId;
+            const icon = button.querySelector('i');
+            
+            try {
+                const response = await fetch(`/pets/${petId}/favorite`, {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                if (!response.ok) throw new Error('Failed to toggle favorite');
+                
+                const data = await response.json();
+                
+                // Get pet name from card
+                const petCard = button.closest('.pet-card');
+                const petName = petCard ? petCard.querySelector('.pet-name').textContent.trim() : 'Pet';
+                
+                // Update heart icon and button state based on favorited status
+                if (data.favorited) {
+                    // Set to filled heart + pink background
+                    icon.className = 'bi bi-heart-fill';
+                    button.classList.add('favorited');
+                    showNotification(`Added ${petName} to favorites!`);
+                } else {
+                    // Set to outline heart + default background
+                    icon.className = 'bi bi-heart';
+                    button.classList.remove('favorited');
+                    showNotification(`Removed from favorites.`);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                showNotification('Error updating favorite');
+            }
+        }
+
+        // Mark favorited hearts on page load
+        document.addEventListener('DOMContentLoaded', async () => {
+            const hearts = document.querySelectorAll('.heart-toggle');
+            for (const heart of hearts) {
+                const petId = heart.dataset.petId;
+                try {
+                    const response = await fetch(`/pets/${petId}/is-favorited`, {
+                        headers: {
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+                        }
+                    });
+                    const data = await response.json();
+                    const icon = heart.querySelector('i');
+                    if (data.favorited) {
+                        icon.className = 'bi bi-heart-fill';
+                        heart.classList.add('favorited');
+                    } else {
+                        icon.className = 'bi bi-heart';
+                        heart.classList.remove('favorited');
+                    }
+                } catch (error) {
+                    console.error('Error checking favorite:', error);
+                }
+            }
+        });
+    </script>
+
+    <style>
+        @keyframes slideIn {
+            from {
+                transform: translateX(400px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+        @keyframes slideOut {
+            from {
+                transform: translateX(0);
+                opacity: 1;
+            }
+            to {
+                transform: translateX(400px);
+                opacity: 0;
+            }
+        }
+    </style>
 @endsection

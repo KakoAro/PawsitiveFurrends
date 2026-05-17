@@ -21,6 +21,14 @@ class FavoriteController extends Controller
         return back()->with('success', $isFav ? "Added {$pet->name} to favorites!" : "Removed from favorites.");
     }
 
+    public function isFavorited(Pet $pet)
+    {
+        $user = auth()->user();
+        $isFav = $user->favoritePets()->where('pet_id', $pet->id)->exists();
+
+        return response()->json(['favorited' => $isFav]);
+    }
+
     public function index()
     {
         $pets = auth()->user()->favoritePets()->with(['tags','shelter'])->paginate(12);

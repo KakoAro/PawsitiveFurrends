@@ -41,7 +41,7 @@
                 <div style="font-size:3rem">🤍</div>
                 <h5 class="font-display mt-3">No favorites yet</h5>
                 <p style="color:var(--muted)">Tap the heart icon on any pet to save them here.</p>
-                <a href="{{ route('pets.index') }}" class="btn btn-terra px-4 py-2 mt-2">Browse Pets</a>
+                <a href="{{ route('pets.index') }}" class="btn btn-outline-dark px-4 py-3 mt-2">Browse Pets Here</a>
             </div>
             @endforelse
         </div>

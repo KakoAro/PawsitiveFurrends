@@ -16,7 +16,7 @@ class CommunityController extends Controller
 
         $category = request()->get('category');
         // Only apply filter if category is provided and valid
-        if ($category && in_array($category, ['stray', 'rescued', 'lost', 'found'])) {
+        if ($category && in_array($category, ['stray', 'rescued'])) {
             $query->where('category', $category);
         }
 
@@ -36,7 +36,7 @@ class CommunityController extends Controller
         $validated = $request->validate([
             'title'       => 'required|string|max:200',
             'description' => 'required|string|min:20|max:1000',
-             'category'    => 'required|in:stray,rescued,lost,found',
+            'category'    => 'required|in:stray,rescued',
             'location'    => 'nullable|string|max:200',
             'contact'     => 'nullable|string|max:100',
             'image'       => 'nullable|image|max:3072',

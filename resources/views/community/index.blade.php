@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', 'Community — Strays, Rescued & Lost Pets')
+@section('title', 'Community — Strays & Rescued Pets')
 
 @section('content')
 <div style="padding-top:80px"></div>
@@ -8,7 +8,7 @@
         <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-5">
             <div>
                 <div class="section-tag">Community Awareness</div>
-                <h1 class="font-display mb-1">Strays, Rescued & Lost Pets</h1>
+                <h1 class="font-display mb-1">Strays & Rescued Pets</h1>
                 <p style="color:var(--muted);font-size:0.9rem">Help us spread awareness. Every post can save a life. 🐾</p>
             </div>
             @auth
@@ -24,7 +24,7 @@
 
         {{-- Category Filter --}}
         <div class="d-flex gap-2 flex-wrap mb-4">
-            @foreach(['' => 'All', 'stray' => '🐾 Stray', 'rescued' => '💚 Rescued', 'lost' => '🔍 Lost', 'found' => '✅ Found'] as $val => $label)
+            @foreach(['' => 'All', 'stray' => '🐾 Stray', 'rescued' => '💚 Rescued'] as $val => $label)
             <a href="{{ route('community.index') }}{{ $val ? '?category='.$val : '' }}"
                class="filter-tab {{ request('category', '') === $val ? 'active' : '' }}">
                 {{ $label }}
@@ -39,7 +39,7 @@
                     <div style="aspect-ratio:4/3;overflow:hidden;position:relative">
                         <img src="{{ $post->image_url }}" alt="{{ $post->title }}"
                              style="width:100%;height:100%;object-fit:cover">
-                        <span class="position-absolute" style="top:12px;left:12px;background:{{ $post->category_color }};color:#fff;font-size:0.75rem;font-weight:600;padding:4px 12px;border-radius:50px">
+                        <span class="position-absolute" style="top:12px;left:12px;background:{{ $post->category_color }};color:#fff;font-size:0.75rem;font-weight:600;padding:6px 14px;border-radius:50px">
                             {{ $post->category_label }}
                         </span>
                     </div>

@@ -18,7 +18,7 @@
     </div>
 
     {{-- Content --}}
-    <div class="admin-content flex-fill p-5" style="padding-top:2rem !important">
+    <div class="admin-content flex-fill p-5">
         <div class="d-flex justify-content-between align-items-center mb-4">
             <h2 class="font-display mb-0">Manage Pets</h2>
             <a href="{{ route('admin.pets.create') }}" class="btn btn-terra px-4">

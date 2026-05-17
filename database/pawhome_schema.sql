@@ -123,6 +123,7 @@ CREATE TABLE adoptions (
     address         TEXT            NOT NULL,
     housing_type    ENUM('house','apartment','condo','other') NOT NULL DEFAULT 'house',
     has_yard        TINYINT(1)      NOT NULL DEFAULT 0,
+    application_type ENUM('adopt','foster') NOT NULL DEFAULT 'adopt',
     other_pets      TEXT            NULL,
     reason          TEXT            NOT NULL,
     experience      TEXT            NULL,

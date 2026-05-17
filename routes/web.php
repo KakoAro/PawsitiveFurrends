@@ -80,6 +80,8 @@ Route::get('/notifications/read', function() {
 
     // Favorites
     Route::post('/favorites/{pet}', [FavoriteController::class, 'toggle'])->name('favorites.toggle');
+    Route::post('/pets/{pet}/favorite', [FavoriteController::class, 'toggle'])->name('pets.favorite');
+    Route::get('/pets/{pet}/is-favorited', [FavoriteController::class, 'isFavorited'])->name('pets.is-favorited');
     Route::get('/favorites', [FavoriteController::class, 'index'])->name('favorites.index');
 
     // Community (authenticated - create & manage)

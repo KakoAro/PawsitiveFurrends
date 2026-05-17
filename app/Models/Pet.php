@@ -97,6 +97,11 @@ class Pet extends Model
         return 'Senior';
     }
 
+    public function getSpeciesLabelAttribute(): string
+    {
+        return ucfirst($this->species);
+    }
+
     public function getCoverUrlAttribute(): string
 {
     if (!$this->cover_image) {

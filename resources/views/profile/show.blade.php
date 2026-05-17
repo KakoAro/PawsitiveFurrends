@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @php
     $isOwnProfile = Auth::id() === $user->id;
-    $isAdmin = Auth::user()->role === 'admin';
+    $isAdmin = $user->role === 'admin';
 @endphp
 @section('title', $isOwnProfile ? 'My Profile' : $user->name . "'s Profile")
 
@@ -49,12 +49,8 @@
                         </div>
 
                         {{-- Notification Bell --}}
-                        @if(Auth::user()->role === 'admin')
-                        @php
-                            $pendingAdoptions  = \App\Models\Adoption::where('status','pending')->count();
-                            $pendingCommunity  = \App\Models\CommunityPost::where('status','pending')->count();
-                            $totalNotif        = $pendingAdoptions + $pendingCommunity;
-                        @endphp
+                        @if($user->role === 'admin')
+                        
                         <div class="dropdown">
                             <button class="btn position-relative" data-bs-toggle="dropdown"
                                     style="width:44px;height:44px;border-radius:50%;background:var(--cream);border:1px solid var(--tan);padding:0;display:flex;align-items:center;justify-content:center">
@@ -254,7 +250,7 @@
          </div>
  
         {{-- COMMUNITY POSTS TAB (guest only) --}}
-        @if(Auth::user()->role !== 'admin')
+        @if($user->role !== 'admin')
 
         <div id="tab-community" style="display:none">
 
@@ -301,7 +297,7 @@
     <div class="text-center py-5">
         <div style="font-size:3rem">📷</div>
         <h5 class="font-display mt-3">No posts yet</h5>
-        <p style="color:var(--muted)">Share a stray, lost, or rescued pet to help your community!</p>
+        <p style="color:var(--muted)">Share a stray or rescued pet to help your community!</p>
         @if($isOwnProfile)
         <a href="{{ route('community.create') }}" class="btn btn-terra px-4 py-2 mt-2">
             Create First Post

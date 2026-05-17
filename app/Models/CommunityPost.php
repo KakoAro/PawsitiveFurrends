@@ -25,23 +25,21 @@ class CommunityPost extends Model
     public function getCategoryLabelAttribute(): string
     {
         return match($this->category) {
-            'stray'        => '🐾 Stray',
-            'rescued'      => '💚 Rescued',
-            'lost'         => '🔍 Lost',
-            'found'        => '✅ Found',
-            default        => ucfirst($this->category),
+            'stray', 'found' => '🐾 Stray',
+            'rescued'        => '💚 Rescued',
+            'lost'           => '🔍 Lost',
+            default          => ucfirst($this->category),
         };
     }
 
     public function getCategoryColorAttribute(): string
     {
         return match($this->category) {
-            'stray'        => '#c4714a',
-            'rescued'      => '#4a7c59',
-            'lost'         => '#d97706',
-            'found'        => '#2563eb',
-            'for_adoption' => '#7c3aed',
-            default        => '#666',
+            'stray', 'found' => '#c4714a',
+            'rescued'        => '#4a7c59',
+            'lost'           => '#d97706',
+            'for_adoption'   => '#7c3aed',
+            default          => '#666',
         };
     }
 

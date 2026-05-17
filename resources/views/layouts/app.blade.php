@@ -39,11 +39,6 @@
                 
     {{-- NOTIFICATION BELL (admin only) --}}
     @if(Auth::user()->role === 'admin')
-    @php
-        $pendingAdoptions  = \App\Models\Adoption::where('status','pending')->count();
-        $pendingCommunity  = \App\Models\CommunityPost::where('status','pending')->count();
-        $totalNotif        = $pendingAdoptions + $pendingCommunity;
-    @endphp
     <div class="dropdown me-1">
         <button class="btn position-relative" data-bs-toggle="dropdown"
                 style="background:transparent;border:none;padding:6px 10px">
@@ -63,8 +58,6 @@
             </div>
 
             {{-- Pending Adoptions list --}}
-            @php $pendingList = \App\Models\Adoption::where('status','pending')->with(['pet','user'])->latest()->take(5)->get(); @endphp
-
             @forelse($pendingList as $app)
             <div style="border-bottom:1px solid var(--tan)">
                 <div class="d-flex align-items-center gap-3 p-3">
@@ -133,10 +126,6 @@
 
     {{-- GUEST NOTIFICATION BELL --}}
     @if(Auth::user()->role !== 'admin')
-    @php
-        $unreadNotifs = \App\Models\Notification::where('user_id', Auth::id())
-            ->where('is_read', false)->count();
-    @endphp
     <div class="dropdown me-1">
         <button class="btn position-relative" data-bs-toggle="dropdown"
                 style="background:transparent;border:none;padding:6px 10px">
@@ -154,10 +143,6 @@
                 <div style="font-weight:600;font-size:0.9rem">My Notifications</div>
                 <div style="font-size:0.73rem;opacity:0.7">Updates on your applications</div>
             </div>
-            @php
-                $myNotifs = \App\Models\Notification::where('user_id', Auth::id())
-                    ->latest('created_at')->take(6)->get();
-            @endphp
             @forelse($myNotifs as $notif)
             <div class="p-3" style="border-bottom:1px solid var(--tan);background:{{ $notif->is_read ? 'transparent' : 'rgba(196,113,74,0.05)' }}">
                 <div class="d-flex gap-3 align-items-start">

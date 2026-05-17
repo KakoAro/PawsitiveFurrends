@@ -8,7 +8,7 @@
         <div class="section-tag">Community</div>
         <h1 class="font-display mb-2">Share a Pet in Need</h1>
         <p style="color:var(--muted);margin-bottom:2rem;font-size:0.9rem">
-            Help spread awareness about stray, lost, rescued, or found animals in your area.
+            Help spread awareness about stray or rescued animals in your area.
             All posts are reviewed before being published.
         </p>
 
@@ -27,10 +27,8 @@
     <label class="form-label">Category <span class="text-danger">*</span></label>
     <select name="category" class="form-select" required>
         <option value="">Select category</option>
-        <option value="stray"        {{ old('category') === 'stray'        ? 'selected' : '' }}>🐾 Stray</option>
-        <option value="rescued"      {{ old('category') === 'rescued'      ? 'selected' : '' }}>💚 Rescued</option>
-        <option value="lost"         {{ old('category') === 'lost'         ? 'selected' : '' }}>🔍 Lost</option>
-        <option value="found"        {{ old('category') === 'found'        ? 'selected' : '' }}>✅ Found</option>
+        <option value="stray"   {{ old('category') === 'stray'   ? 'selected' : '' }}>🐾 Stray</option>
+        <option value="rescued" {{ old('category') === 'rescued' ? 'selected' : '' }}>💚 Rescued</option>
     </select>
 </div>
 
@@ -38,7 +36,7 @@
                         <label class="form-label">Title <span class="text-danger">*</span></label>
                         <input type="text" name="title" class="form-control"
                                value="{{ old('title') }}"
-                               placeholder="e.g. Lost brown Aspin near Katipunan Ave" required>
+                               placeholder="e.g. Stray brown Aspin near Katipunan Ave" required>
                     </div>
 
                     <div class="mb-3">

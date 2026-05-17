@@ -57,8 +57,8 @@
                                 </div>
                             </td>
                             <td>
-                                <div style="font-weight:500;font-size:0.88rem">{{ $adoption->applicant_name }}</div>
-                                <div style="font-size:0.75rem;color:var(--muted)">{{ $adoption->applicant_email }}</div>
+                                <div style="font-weight:500;font-size:0.88rem">{{ $app->applicant_name }}</div>
+                                <div style="font-size:0.75rem;color:var(--muted)">{{ $app->applicant_email }}</div>
                             </td>
                             <td style="font-size:0.85rem;color:var(--muted)">{{ $app->shelter->name }}</td>
                             <td>

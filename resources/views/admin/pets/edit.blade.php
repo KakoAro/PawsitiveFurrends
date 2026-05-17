@@ -15,7 +15,7 @@
     </div>
 
     {{-- Content --}}
-    <div class="admin-content flex-fill p-5" style="padding-top:2rem !important">
+    <div class="admin-content flex-fill p-5">
         <div class="d-flex align-items-center gap-3 mb-4">
             <a href="{{ route('admin.pets.index') }}" class="btn btn-outline-cocoa btn-sm">
                 <i class="bi bi-arrow-left"></i>

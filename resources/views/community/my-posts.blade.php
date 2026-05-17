@@ -43,7 +43,7 @@
         <div class="text-center py-5">
             <div style="font-size:3rem">📷</div>
             <h5 class="font-display mt-3">No posts yet</h5>
-            <p style="color:var(--muted)">Share a stray, lost, or rescued pet to help your community!</p>
+            <p style="color:var(--muted)">Share a stray or rescued pet to help your community!</p>
             <a href="{{ route('community.create') }}" class="btn btn-terra px-4 py-2 mt-2">Create First Post</a>
         </div>
         @endforelse

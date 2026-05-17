@@ -158,9 +158,8 @@
                                     <form action="{{ route('favorites.toggle', $pet) }}" method="POST"
                                         onclick="event.stopPropagation()">
                                         @csrf
-                                        <button type="submit" class="btn-fav">
-                                            <i
-                                                class="bi bi-heart{{ $pet->favoritedBy()->where('user_id', auth()->id())->exists()? '-fill': '' }}"></i>
+                                        <button type="submit" class="btn-fav {{ $pet->favoritedBy()->where('user_id', auth()->id())->exists() ? 'favorited' : '' }}">
+                                            <i class="bi bi-heart{{ $pet->favoritedBy()->where('user_id', auth()->id())->exists() ? '-fill' : '' }}"></i>
                                         </button>
                                     </form>
                                 @endauth
