@@ -26,12 +26,7 @@
             </a>
         </div>
 
-        @if(session('success'))
-        <div class="alert alert-terra alert-dismissible fade show mb-4">
-            {{ session('success') }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-        </div>
-        @endif
+
 
         <div class="card border-0 shadow-sm" style="border-radius:1.2rem">
             <div class="table-responsive">

@@ -277,12 +277,14 @@ h1, h2, h3, h4 {
   font-size: 0.88rem; font-weight: 500;
   padding: 0.45rem 1.2rem;
   cursor: pointer; transition: all 0.2s;
+  text-decoration: none;
 }
 .filter-tab:hover,
 .filter-tab.active {
   background: var(--terra);
   border-color: var(--terra);
   color: #fff;
+  text-decoration: none;
 }
 
 /* ---- Step Cards ---- */
@@ -363,10 +365,9 @@ h1, h2, h3, h4 {
   background: var(--cocoa);
   min-height: 100vh;
   width: 240px;
-  position: fixed; left: 0; top: 56px;
-  padding-top: 1.5rem;
+  position: fixed; left: 0; top: 0;
+  padding-top: 96px;
   z-index: 1000;
-  height: calc(100vh - 56px);
   overflow-y: auto;
 }
 .admin-sidebar .brand {
@@ -388,12 +389,12 @@ h1, h2, h3, h4 {
 }
 .admin-content { 
   margin-left: 240px;
-  padding-top: 72px !important;
+  padding-top: 88px !important;
 }
 
 /* ---- Status Badges ---- */
-.badge-pending   { background: #ffc107; color: #000; }
-.badge-reviewing { background: #0dcaf0; color: #000; }
+.badge-pending   { background: #ffc107; color: #000 !important; }
+.badge-reviewing { background: #0dcaf0; color: #000 !important; }
 .badge-approved  { background: var(--sage); color: #fff; }
 .badge-rejected  { background: #dc3545; color: #fff; }
 .badge-completed { background: var(--cocoa-mid); color: #fff; }

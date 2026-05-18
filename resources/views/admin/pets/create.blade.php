@@ -60,7 +60,7 @@
                         <div class="col-md-4">
                             <label class="form-label">Species <span class="text-danger">*</span></label>
                             <select name="species" class="form-select @error('species') is-invalid @enderror" required>
-                                @foreach(['dog'=>'Dog','cat'=>'Cat','rabbit'=>'Rabbit','bird'=>'Bird','other'=>'Other'] as $val => $label)
+                                @foreach(['dog'=>'Dog','cat'=>'Cat'] as $val => $label)
                                 <option value="{{ $val }}" {{ old('species', $pet->species ?? '') === $val ? 'selected' : '' }}>{{ $label }}</option>
                                 @endforeach
                             </select>

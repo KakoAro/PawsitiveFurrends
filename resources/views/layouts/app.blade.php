@@ -28,7 +28,7 @@
                 <li class="nav-item"><a class="nav-link" href="{{ route('home') }}#how">How It Works</a></li>
                 <li class="nav-item"><a class="nav-link" href="{{ route('home') }}#categories">Categories</a></li>
                 <li class="nav-item"><a class="nav-link" href="{{ route('about') }}">About</a></li>
-                <li class="nav-item"><a class="nav-link {{ request()->routeIs('community.*') ? 'active' : '' }}" href="{{ route('community.index') }}">Community</a></li>
+                <li class="nav-item"><a class="nav-link" href="https://web.facebook.com/groups/2679942735420793">Community</a></li>
             </ul>
 
             <div class="d-flex align-items-center gap-2">
@@ -41,11 +41,11 @@
     @if(Auth::user()->role === 'admin')
     <div class="dropdown me-1">
         <button class="btn position-relative" data-bs-toggle="dropdown"
-                style="background:transparent;border:none;padding:6px 10px">
+                style="background:transparent;border:none;padding:10px 10px">
             <i class="bi bi-bell" style="font-size:1.3rem;color:var(--cocoa-mid)"></i>
             @if($totalNotif > 0)
-            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill"
-                  style="background:var(--terra);font-size:0.65rem;padding:3px 6px">
+            <span class="position-absolute top-0 translate-middle badge rounded-pill"
+                  style="background:var(--terra);font-size:0.65rem;padding:3px 6px; left: 70%;">
                 {{ $totalNotif }}
             </span>
             @endif
@@ -131,8 +131,8 @@
                 style="background:transparent;border:none;padding:6px 10px">
             <i class="bi bi-bell" style="font-size:1.3rem;color:var(--cocoa-mid)"></i>
             @if($unreadNotifs > 0)
-            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill"
-                  style="background:var(--terra);font-size:0.65rem;padding:3px 6px">
+            <span class="position-absolute top-0 translate-middle badge rounded-pill"
+                  style="background:var(--terra);font-size:0.65rem;padding:3px 6px; left: 80%;">
                 {{ $unreadNotifs }}
             </span>
             @endif
@@ -250,24 +250,8 @@
                     <li><a href="{{ route('pets.index') }}">All Animals</a></li>
                 </ul>
             </div>
-            <div class="col-6 col-lg-2">
-                <h5>Resources</h5>
-                <ul class="list-unstyled d-flex flex-column gap-2">
-                    <li><a href="{{ route('adoption-guide') }}">Adoption Guide</a></li>
-                    <li><a href="{{ route('pet-care-tips') }}">Pet Care Tips</a></li>
-                    <li><a href="{{ route('shelter-partners') }}">Shelter Partners</a></li>
-                    <li><a href="{{ route('success-stories') }}">Success Stories</a></li>
-                </ul>
-            </div>
-            <div class="col-6 col-lg-2">
-                <h5>Company</h5>
-                <ul class="list-unstyled d-flex flex-column gap-2">
-                    <li><a href="{{ route('about') }}">About Us</a></li>
-                    <li><a href="{{ route('contact') }}">Contact</a></li>
-                    <li><a href="{{ route('privacy') }}">Privacy Policy</a></li>
-                    <li><a href="{{ route('terms') }}">Terms of Use</a></li>
-                </ul>
-            </div>
+          
+            
         </div>
         <hr style="border-color:rgba(255,255,255,0.1)">
         <div class="d-flex justify-content-between align-items-center flex-wrap gap-2" style="font-size:0.8rem">

@@ -13,7 +13,7 @@
         </nav>
     </div>
 
-    <div class="admin-content flex-fill p-5" style="padding-top:2rem !important">
+    <div class="admin-content flex-fill p-5">
         <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
             <h2 class="font-display mb-0">Adoption Applications(test view)</h2>
             {{-- Status filter --}}
@@ -34,7 +34,7 @@
 
         <div class="card border-0 shadow-sm" style="border-radius:1.2rem">
             <div class="table-responsive">
-                <table class="table table-hover align-middle mb-0">
+                <table class="table tables-hover align-middle mb-0">
                     <thead style="background:var(--cream)">
                         <tr>
                             <th style="padding:1rem 1.2rem;font-size:0.78rem;color:var(--muted);font-weight:500;text-transform:uppercase">#</th>
