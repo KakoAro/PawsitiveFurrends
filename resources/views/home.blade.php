@@ -17,7 +17,7 @@
                         Give a pet their <em class="text-terra">forever</em> home today
                     </h1>
                     <p class="mb-4" style="font-size:1.05rem;color:var(--muted);font-weight:300;max-width:460px;">
-                        Thousands of loving animals are waiting for someone just like you. Find your perfect companion and
+                        Thousands of loving animals in Tagum city are waiting for someone just like you. Find your perfect companion and
                         change two lives at once.
                     </p>
                     <div class="d-flex gap-3 flex-wrap">
@@ -133,7 +133,7 @@
         <div class="container">
             <div class="text-center mb-5 fade-up">
                 <div class="section-tag">Meet Our Pets</div>
-                <h2 class="font-display mb-2">Animals looking for <em class="text-terra">love</em></h2>
+                <h2 class="font-display mb-2">Animals looking for <em class="text-terra">love</em> in Tagum City</h2>
                 <p style="color:var(--muted);font-weight:300;max-width:480px;margin:auto">Every one of these companions has
                     been health-checked, vaccinated, and is ready to meet you.</p>
             </div>
@@ -178,7 +178,7 @@
                                     @endforeach
                                 </div>
                                 <div class="d-flex justify-content-between align-items-center">
-                                    <span style="font-size:0.78rem;color:var(--muted)">📍 {{ $pet->shelter->city }}</span>
+                                    <span style="font-size:0.78rem;color:var(--muted)">📍 {{ $pet->shelter->address }}</span>
                                     @if (Auth::check() && Auth::user()->role === 'admin')
                                         <a href="{{ route('admin.pets.edit', $pet) }}" class="btn btn-sm px-3"
                                             style="background:var(--cream);color:var(--cocoa);border-radius:50px"

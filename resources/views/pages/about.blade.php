@@ -19,7 +19,7 @@
                         <h3 class="font-display">Our Mission</h3>
                         <p class="text-muted">
                             At Pawsitive Furrends, we believe every animal deserves a loving home. 
-                            Our mission is to connect abandoned and stray animals with caring 
+                            Our mission is to connect abandoned and stray animals within Tagum City with caring 
                             individuals and families who can provide them with the love, care, 
                             and stability they need to thrive.
                         </p>
@@ -31,7 +31,7 @@
                     <div class="card-body p-4">
                         <h3 class="font-display">Our Story</h3>
                         <p class="text-muted">
-                            Created in 2026 by a group of BSIT students from University of Mindanao Tagum College, Pawsitive Furrends 
+                            Created in 2026 by my group, we are BSIT students from University of Mindanao Tagum College, Pawsitive Furrends 
                             started as a small local initiative to help stray animals in our 
                             community. Today, we've grown to help hundreds of animals find 
                             their forever homes each year.
