@@ -8,7 +8,7 @@
 <div class="d-flex">
     {{-- Sidebar --}}
     <div class="admin-sidebar">
-        <div class="brand">🐾 PawHome Admin</div>
+        <div class="brand">🐾 Pawsitive Furrends Admin</div>
         <nav class="nav flex-column mt-3">
             <a class="nav-link active" href="{{ route('admin.pets.index') }}"><i class="bi bi-paw me-2"></i>All Pets</a>
             <a class="nav-link" href="{{ route('admin.pets.create') }}"><i class="bi bi-plus-circle me-2"></i>Add New Pet</a>

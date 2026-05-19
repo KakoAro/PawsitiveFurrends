@@ -4,7 +4,7 @@
 @section('content')
 <div class="d-flex">
     <div class="admin-sidebar">
-        <div class="brand">🐾 PawHome Admin</div>
+        <div class="brand">🐾 Pawsitive Admin</div>
         <nav class="nav flex-column mt-3">
             <a class="nav-link" href="{{ route('admin.pets.index') }}"><i class="bi bi-paw me-2"></i>All Pets</a>
             <a class="nav-link" href="{{ route('admin.pets.create') }}"><i class="bi bi-plus-circle me-2"></i>Add New Pet</a>
@@ -15,7 +15,7 @@
 
     <div class="admin-content flex-fill p-5">
         <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
-            <h2 class="font-display mb-0">Adoption Applications(test view)</h2>
+            <h2 class="font-display mb-0">Adoption Applications</h2>
             {{-- Status filter --}}
             <div class="d-flex gap-2 flex-wrap">
                 @foreach([''=>'All','pending'=>'Pending','reviewing'=>'Reviewing','approved'=>'Approved','rejected'=>'Rejected','completed'=>'Completed'] as $val => $label)
@@ -53,7 +53,7 @@
                             <td>
                                 <div class="d-flex align-items-center gap-2">
                                     <img src="{{ $app->pet->cover_url }}" style="width:36px;height:36px;border-radius:0.5rem;object-fit:cover">
-                                    <span style="font-weight:500;font-size:0.88rem">{{ $app->pet->name }}</span>
+                                    <span style="font-weight:500;font-size:0.88rem" >{{ $app->pet->name }}</span>
                                 </div>
                             </td>
                             <td>
@@ -62,7 +62,7 @@
                             </td>
                             <td style="font-size:0.85rem;color:var(--muted)">{{ $app->shelter->name }}</td>
                             <td>
-                                <span class="badge badge-{{ $app->status_badge }}">{{ ucfirst($app->status) }}</span>
+                                <span class="badge badge-{{ $app->pet->status === 'available' ? 'approved' : ($app->pet->status === 'pending' ? 'pending' : 'rejected') }}">{{ ucfirst($app->pet->status) }}</span>
                             </td>
                             <td style="font-size:0.82rem;color:var(--muted)">{{ $app->created_at->format('M d, Y') }}</td>
                             <td>

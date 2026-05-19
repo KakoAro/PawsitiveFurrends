@@ -5,7 +5,7 @@
 <div class="d-flex">
     {{-- Sidebar --}}
     <div class="admin-sidebar">
-        <div class="brand">🐾 PawHome Admin</div>
+        <div class="brand">🐾 Pawsitive Furrends Admin</div>
         <nav class="nav flex-column mt-3">
             <a class="nav-link" href="{{ route('admin.pets.index') }}"><i class="bi bi-paw me-2"></i>All Pets</a>
             <a class="nav-link active" href="{{ route('admin.pets.create') }}"><i class="bi bi-plus-circle me-2"></i>Add New Pet</a>
@@ -60,7 +60,7 @@
                         <div class="col-md-4">
                             <label class="form-label">Species <span class="text-danger">*</span></label>
                             <select name="species" class="form-select @error('species') is-invalid @enderror" required>
-                                @foreach(['dog'=>'Dog','cat'=>'Cat','rabbit'=>'Rabbit','bird'=>'Bird','other'=>'Other'] as $val => $label)
+                                @foreach(['dog'=>'Dog','cat'=>'Cat'] as $val => $label)
                                 <option value="{{ $val }}" {{ old('species', $pet->species ?? '') === $val ? 'selected' : '' }}>{{ $label }}</option>
                                 @endforeach
                             </select>

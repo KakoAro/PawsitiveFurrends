@@ -5,7 +5,7 @@
 <div style="min-height:100vh;display:flex;align-items:center;background:var(--cream);padding-top:80px">
     <div class="container" style="max-width:480px;padding:2rem 0">
         <div class="text-center mb-4">
-            <a href="{{ route('home') }}" class="font-display text-decoration-none" style="font-size:1.8rem;color:var(--terra)">🐾 PawHome</a>
+            <a href="{{ route('home') }}" class="font-display text-decoration-none" style="font-size:1.8rem;color:var(--terra)">🐾 Pawsitive Furrends</a>
             <h2 class="font-display mt-2 mb-1" style="font-size:1.6rem">Create your account</h2>
             <p style="color:var(--muted);font-size:0.88rem">Join thousands of families finding their forever pet.</p>
         </div>

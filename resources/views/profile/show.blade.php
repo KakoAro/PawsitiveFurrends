@@ -51,7 +51,7 @@
                         {{-- Notification Bell --}}
                         @if($user->role === 'admin')
                         
-                        <div class="dropdown">
+                        {{-- <div class="dropdown">
                             <button class="btn position-relative" data-bs-toggle="dropdown"
                                     style="width:44px;height:44px;border-radius:50%;background:var(--cream);border:1px solid var(--tan);padding:0;display:flex;align-items:center;justify-content:center">
                                 <i class="bi bi-bell" style="font-size:1.2rem;color:var(--cocoa-mid)"></i>
@@ -111,7 +111,7 @@
                                     </a>
                                 </div>
                             </div>
-                        </div>
+                        </div> --}}
                         @endif
 
                     </div>
@@ -133,17 +133,13 @@
                       <span class="badge ms-1" style="background:var(--terra);color:#fff;border-radius:50px;font-size:0.7rem;padding:2px 7px">{{ $favoritePets->count() }}</span>
                   </button>
                   {{-- Admin: Share a Pet tab third (only on own profile) --}}
-                  @if($isOwnProfile)
-                  <button class="filter-tab" onclick="showTab('sharepet', this)">
-                      📤 Share a Pet
-                  </button>
-                  @endif
+                 
               @else
                   {{-- Guest: Community Posts tab second --}}
-                  <button class="filter-tab" onclick="showTab('community', this)">
+                  {{-- <button class="filter-tab" onclick="showTab('community', this)">
                       🐾 {{ $isOwnProfile ? 'My Community Posts' : 'Community Posts' }}
                       <span class="badge ms-1" style="background:var(--terra);color:#fff;border-radius:50px;font-size:0.7rem;padding:2px 7px">{{ $communityPosts->count() }}</span>
-                  </button>
+                  </button> --}}
                   {{-- Guest: Favorites tab third --}}
                   <button class="filter-tab" onclick="showTab('favorites', this)">
                       ❤️ {{ $isOwnProfile ? 'My Favorites' : 'Favorites' }}
@@ -228,10 +224,10 @@
                                   @if($isOwnProfile)
                                   <form action="{{ route('favorites.toggle', $pet) }}" method="POST" style="display:inline">
                                       @csrf
-                                      @method('DELETE')
+                                      {{-- @method('DELETE')
                                       <button type="submit" class="btn btn-outline-cocoa px-3 py-2" style="font-size:0.85rem">
                                           Remove ❤️
-                                      </button>
+                                      </button> --}}
                                   </form>
                                   @endif
                              </div>
